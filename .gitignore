@@ -1,0 +1,24 @@
+# Material de referencia del curso (consigna, clases) - no forma parte de la solucion
+Documentacion/
+
+# Llaves y secretos - nunca publicar
+.env
+
+# Claves de Office abiertos (locks temporales)
+~$*
+
+# Entornos virtuales
+env/
+venv/
+.venv/
+
+# Base de datos vectorial persistida (se regenera al ejecutar)
+chroma_ecomarket/
+
+# Python
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+
+# Utilerias internas de construccion
+_build/

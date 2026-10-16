@@ -66,3 +66,9 @@ Equipo: **Cristian Humberto Yepes Marin** y **Yenny Alexandra Villarreal Suaza**
 - [ ] Fase 3: documento de análisis (riesgos éticos, monitoreo, observabilidad, mejoras)
 - [ ] Fase 4: elegir Streamlit/Gradio justificadamente, construir la interfaz, grabar el vídeo de demo (guion: f1 2–3 min, f2 3–4 min, demo 3–4 min)
 - [ ] Actualizar este archivo al final de cada sesión de trabajo
+
+## 7. Registro de sesiones
+
+| Fecha | Sesión | Lo avanzado |
+|---|---|---|
+| 2026-10-16 | Arranque del proyecto + propuesta preliminar | Repo creado y sincronizado (`main`). Leído el enunciado (`Documentacion/Proyecto Final.pdf`). Publicada `docs/propuesta-preliminar.md` (commit `249e8fa`) con las decisiones de diseño: router, 3 herramientas con contratos JSON, LangChain, interfaz a decidir en fase 4. Publicada esta bitácora (commit `d53bd0c`). Pendiente: feedback del profesor de la sesión 5 y arranque de la Fase 2. |

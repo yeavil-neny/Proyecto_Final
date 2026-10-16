@@ -15,4 +15,4 @@ Proyecto en construcción: extensión del asistente RAG del [Taller Práctico #2
 | Fase 3 | Análisis crítico: seguridad y ética, monitoreo y observabilidad, propuestas de mejora |
 | Fase 4 | Despliegue: interfaz web (Streamlit o Gradio) y demostración funcional |
 
-La documentación de cada fase quedará en `docs/` y el código en `src/`, siguiendo la estructura de los talleres anteriores.
+La documentación de cada fase quedará en `docs/` y el código en `src/`, siguiendo la estructura de los talleres anteriores. El punto de partida y las convenciones del equipo están resumidos en [`docs/estado-trabajo.md`](docs/estado-trabajo.md) (bitácora viva del proyecto).

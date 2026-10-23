@@ -22,3 +22,5 @@ __pycache__/
 
 # Utilerias internas de construccion
 _build/
+# Utileria de exportacion de imagenes ( queda en _build )
+assets/_render_svg.html

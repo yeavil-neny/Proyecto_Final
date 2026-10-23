@@ -105,6 +105,8 @@ Se demuestra en tres niveles: (a) el **router** separa ejecutar de informar (4.1
 
 ## 5. Cómo ejecutar
 
+**Diagrama de flujo del proceso de devolución** (router, decisiones del agente y llamadas a las herramientas): [`flujo-devolucion-agente.html`](flujo-devolucion-agente.html) — diagrama interactivo con tema claro/oscuro, zoom, búsqueda y rastreo de relaciones; el botón *Export* exporta PNG/SVG para el documento y el video (generado con Archify, validación completa: 9/9 checks, 0 errores, 0 advertencias).
+
 ```bash
 # 1. Entorno: python 3.12+ con requirements.txt de este repo
 # 2. Clave: copiar .env.example a .env y poner GEMINI_API_KEY

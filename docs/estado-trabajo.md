@@ -63,10 +63,10 @@ Equipo: **Cristian Humberto Yepes Marin** y **Yenny Alexandra Villarreal Suaza**
 
 ## 6. Próximos pasos (checklist viva)
 
-- [ ] Traer la retroalimentación del profesor de la sesión 5 y ajustar `docs/propuesta-preliminar.md` si aplica
+- [x] Traer la retroalimentación del profesor de la sesión 5 y ajustar `docs/propuesta-preliminar.md` si aplica *(programa de la sesión 6 recibido; feedback del profesor aún pendiente)*
 - [x] Fase 2 (núcleo): código base del Taller 2 en `src/`, 3 herramientas con contratos JSON, motor de reglas, router determinista, agente LangChain 1.x y casos de prueba deterministas (36/36 PASAN)
 - [ ] Fase 2 (con clave API): corrida extremo a extremo del agente LLM (éxitos, fallos, pregunta por motivo ambiguo) y prueba de discernimiento en vivo
-- [ ] Fase 1 en docs: diagrama de flujo formal del proceso de devolución (con decisión del router y llamadas a herramientas)
+- [x] Fase 1 en docs: `docs/fase1-arquitectura.md` con el diagrama de flujo formal del proceso de devolución (router, decisiones del agente, llamadas a herramientas)
 - [ ] Fase 3: documento de análisis (riesgos éticos, monitoreo, observabilidad, mejoras)
 - [ ] Fase 4: elegir Streamlit/Gradio justificadamente, construir la interfaz, grabar el vídeo de demo (guion: f1 2–3 min, f2 3–4 min, demo 3–4 min)
 - [ ] Actualizar este archivo al final de cada sesión de trabajo
@@ -78,5 +78,6 @@ Equipo: **Cristian Humberto Yepes Marin** y **Yenny Alexandra Villarreal Suaza**
 | 2026-10-16 | Arranque del proyecto + propuesta preliminar | Repo creado y sincronizado (`main`). Leído el enunciado (`Documentacion/Proyecto Final.pdf`). Publicada `docs/propuesta-preliminar.md` (commit `249e8fa`) con las decisiones de diseño: router, 3 herramientas con contratos JSON, LangChain, interfaz a decidir en fase 4. Publicada esta bitácora (commit `d53bd0c`). Pendiente: feedback del profesor de la sesión 5 y arranque de la Fase 2. |
 | 2026-10-23 | Fase 2: código del agente | Copiado el RAG del Taller 2 a `src/` y `data/` sin cambios. Creadas `src/herramientas.py` (3 herramientas con contratos JSON + motor de reglas de la política), `src/agente.py` (router determinista + agente LangChain 1.x `create_agent`) y `src/pruebas_fase2.py` (36 casos deterministas, todos PASAN). Decisiones nuevas: reloj simulado con `fecha_base` del corpus (`RELOJ_SIMULADO` para ajustar), la clasificación del motivo es determinista y pide aclaración ante la duda, y la emisión de etiquetas revalida el dictamen y es idempotente. Publicado `docs/fase2-implementacion.md`. Pendiente: corrida con API key (extremo a extremo + discernimiento del LLM), diagrama de Fase 1 y feedback del profesor. |
 | 2026-10-23 | Diagrama de flujo (planificación del flujo de trabajo) | Creado con Archify y validado (showcase: 9/9 checks): `docs/flujo-devolucion-agente.html` — router determinista, decisiones del agente y llamadas a las herramientas, con rutas de éxito, rechazo explicado, motivo ambiguo, escalamiento y ruta informativa. Incluido en el documento de la Fase 2. Pendiente igual: corrida con API key y feedback del profesor. |
+| 2026-10-23 | Fase 1 documentada | Publicada `docs/fase1-arquitectura.md` (arquitectura router con su justificación, definición de las 3 herramientas con sus contratos, marco LangChain 1.x justificado y el diagrama de flujo embebido como imagen estándarte PNG — `docs/assets/flujo-devolucion-agente.png`, exportada del diagrama validado — más su versión interactiva). Con esto la Fase 1 queda cubierta. Recibido el programa de la sesión 6 (KPIs de IA generativa, observabilidad Azure AI Foundry, optimización, 10 best practices): esas lecturas guían la Fase 3. |
 
 **Cómo ejecutar lo de hoy:** `python src/pruebas_fase2.py` (sin clave API) y, con la clave en `.env`, `python src/agente.py --consulta "..." --razonamiento`.

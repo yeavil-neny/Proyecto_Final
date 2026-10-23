@@ -15,6 +15,9 @@ venv/
 # Base de datos vectorial persistida (se regenera al ejecutar)
 chroma_ecomarket/
 
+# Registro de turnos (observabilidad en ejecucion, se reconstruye al usar)
+data/registro_turnos.jsonl
+
 # Python
 __pycache__/
 *.pyc

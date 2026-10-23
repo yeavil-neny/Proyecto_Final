@@ -31,6 +31,7 @@ Uso (desde la raiz del repositorio, requiere GEMINI_API_KEY en .env):
 """
 
 import argparse
+import datetime
 import json
 import os
 import re
@@ -227,8 +228,39 @@ def _mostrar_trazas(trazas):
             print(f"      -> {paso['salida'][:300]}")
 
 
+# ---------------------------------------------------------------------------
+# Observabilidad (Fase 3): registro de turnos en JSONL (una linea por turno)
+# data/registro_turnos.jsonl alimenta los KPIs del documento de analisis; es
+# un registro de simulacion educativa y va excluido del repositorio.
+# ---------------------------------------------------------------------------
+
+RUTA_REGISTRO_TURNOS = os.path.join(RAIZ, "data", "registro_turnos.jsonl")
+
+
+def registrar_turno(consulta, ruta, trazas, respuesta, duracion):
+    """Persiste un turno completo (ruta, herramientas, respuesta, duracion).
+
+    Si la escritura falla (p.ej. permisos), el turno del cliente no se ve
+    afectado: la observabilidad se degrada, no detiene el servicio.
+    """
+    try:
+        evento = {
+            "fecha": datetime.datetime.now().isoformat(timespec="seconds"),
+            "ruta": ruta,
+            "consulta": consulta,
+            "herramientas": trazas,
+            "respuesta": respuesta,
+            "duracion_segundos": round(duracion, 2),
+        }
+        with open(RUTA_REGISTRO_TURNOS, "a", encoding="utf-8") as archivo:
+            archivo.write(json.dumps(evento, ensure_ascii=False) + "\n")
+    except OSError:
+        pass
+
+
 def ejecutar_turno(consulta, llm, ejecutor, vectorstore, mostrar_trazas=True):
     """Un turno completo pasando por el router. Imprime la ruta elegida y responde."""
+    inicio = datetime.datetime.now()
     ruta, razon = enrutar(consulta)
     print(f"(router -> ruta {ruta}: {razon})")
 
@@ -236,8 +268,12 @@ def ejecutar_turno(consulta, llm, ejecutor, vectorstore, mostrar_trazas=True):
         respuesta, trazas = _herramientas_ejecutadas(ejecutor, consulta)
         if mostrar_trazas:
             _mostrar_trazas(trazas)
-        return respuesta
-    return rag_ecomarket.responder(consulta, vectorstore, llm)
+    else:
+        respuesta = rag_ecomarket.responder(consulta, vectorstore, llm)
+        trazas = []
+
+    registrar_turno(consulta, ruta, trazas, respuesta, (datetime.datetime.now() - inicio).total_seconds())
+    return respuesta
 
 
 def main():

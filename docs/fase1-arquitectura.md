@@ -29,7 +29,7 @@ El flujo completo con las decisiones del router, las del agente y las llamadas a
 
 ![Flujo de trabajo del agente de devoluciones de EcoMarket](assets/flujo-devolucion-agente.png)
 
-El diagrama anterior es la imagen estándarte de la figura; la versión interactiva (tema claro/oscuro, zoom, búsqueda, rastreo de relaciones, exportación a PNG/SVG) está en [`flujo-devolucion-agente.html`](flujo-devolucion-agente.html).
+El diagrama anterior es la imagen estática del flujo; la versión interactiva (tema claro/oscuro, zoom, búsqueda, rastreo de relaciones, exportación a PNG/SVG) está en [`flujo-devolucion-agente.html`](flujo-devolucion-agente.html).
 
 Lectura del flujo paso a paso:
 

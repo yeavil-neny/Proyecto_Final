@@ -23,6 +23,7 @@ La documentación de cada fase quedará en `docs/` y el código en `src/`, sigui
 |---|---|---|
 | Propuesta preliminar | [`docs/propuesta-preliminar.md`](docs/propuesta-preliminar.md) | Lista |
 | Fase 1 (arquitectura y herramienta) | [`docs/fase1-arquitectura.md`](docs/fase1-arquitectura.md) | Lista (con diagrama de flujo) |
-| Fase 2 (implementación) | [`docs/fase2-implementacion.md`](docs/fase2-implementacion.md) | Implementada (agente + 3 herramientas + router; 36 casos deterministas pasan) |
+| Fase 2 (implementación) | [`docs/fase2-implementacion.md`](docs/fase2-implementacion.md) | Implementada y probada (agente + 3 herramientas + router; 36 casos deterministas + 7 en vivo con LLM) |
+| Fase 3 (análisis crítico) | [`docs/fase3-analisis-critico.md`](docs/fase3-analisis-critico.md) | Lista (riesgos y guardrails, monitoreo con registro JSONL, KPIs, mejoras priorizadas) |
 
 **Código (`src/`):** `rag_ecomarket.py` y `prompts.py` son el sistema RAG del Taller #2 sin cambios (ruta informativa); `herramientas.py` define las 3 herramientas con contratos JSON; `agente.py` reúne el router determinista y el agente LangChain 1.x; `pruebas_fase2.py` ejecuta los casos de prueba sin llamar al LLM.

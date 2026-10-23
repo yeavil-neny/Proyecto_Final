@@ -1,0 +1,5 @@
+{
+  "registro": "Etiquetas de devolución emitidas por el agente de EcoMarket",
+  "notas": "Registro simulado y auditable (Fase 3 lo usa para observabilidad). La herramienta generar_etiqueta_devolucion persiste aqui cada etiqueta emitida con la fecha simulada y el dictamen que la autorizo.",
+  "etiquetas": []
+}

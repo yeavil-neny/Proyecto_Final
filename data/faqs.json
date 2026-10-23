@@ -1,0 +1,77 @@
+{
+  "tienda": "EcoMarket",
+  "faqs": [
+    {
+      "id": "FAQ-01",
+      "categoria": "envios",
+      "pregunta": "¿Cuánto tarda el envío de mi pedido?",
+      "respuesta": "Los envíos nacionales tardan entre 3 y 7 días hábiles según la ciudad de destino. Los pedidos se despachan en un máximo de 2 días hábiles después de la confirmación de compra. Cuando el pedido sale del almacén, el cliente recibe un número de seguimiento con formato ECO-XXXXX y un enlace de rastreo."
+    },
+    {
+      "id": "FAQ-02",
+      "categoria": "envios",
+      "pregunta": "¿Hacen envíos a todo el país? ¿Hay ciudades sin cobertura?",
+      "respuesta": "EcoMarket despacha a todos los departamentos de Colombia a través de la transportadora EcoEnvíos. En municipios rurales la entrega puede tardar hasta 10 días hábiles. Si EcoEnvíos no llega a una dirección, el cliente es contactado para coordinar un punto de recogida cercano."
+    },
+    {
+      "id": "FAQ-03",
+      "categoria": "pagos",
+      "pregunta": "¿Qué métodos de pago aceptan?",
+      "respuesta": "EcoMarket acepta tarjetas de crédito y débito, PSE (débito desde cuentas bancarias), Nequi, Bancolombia a la mano y pagos en efectivo en puntos autorizados. Todos los pagos procesan sobre conexiones cifradas; los datos de la tarjeta nunca se almacenan en la tienda."
+    },
+    {
+      "id": "FAQ-04",
+      "categoria": "pagos",
+      "pregunta": "¿Cómo pido la factura electrónica de mi compra?",
+      "respuesta": "La factura electrónica se envía automáticamente al correo registrado al confirmar la compra. Si el cliente necesita factura con datos de empresa (NIT), puede solicitarla respondiendo el correo de confirmación o por el canal de atención, indicando el número del pedido."
+    },
+    {
+      "id": "FAQ-05",
+      "categoria": "pedidos",
+      "pregunta": "¿Cómo consulto el estado de mi pedido?",
+      "respuesta": "El cliente puede consultar el estado del pedido con el asistente indicando su número de seguimiento (formato ECO-XXXXX, recibido por correo al despachar) o directamente en el enlace de rastreo. Los estados posibles son: EN PREPARACION, EN TRANSITO, RETRASADO, ENTREGADO y DEVOLUCION EN PROCESO."
+    },
+    {
+      "id": "FAQ-06",
+      "categoria": "pedidos",
+      "pregunta": "¿Puedo cambiar la dirección de entrega de un pedido ya despachado?",
+      "respuesta": "Si el pedido aún está en estado EN PREPARACION es posible cambiar la dirección respondiendo el correo de confirmación. Ya despachado el pedido, el cambio no puede garantizarse: se recomienda esperar la primera llamada de la transportadora y coordinar con EcoEnvíos; en algunos casos la transportadora permite redireccionar con un costo adicional."
+    },
+    {
+      "id": "FAQ-07",
+      "categoria": "suscripcion",
+      "pregunta": "¿Cómo funciona la suscripción mensual del café?",
+      "respuesta": "El café orgánico molido 500g puede comprarse como compra única o activar la suscripción mensual. Con la suscripción, cada mes se hace un despacho automático y se cobra el mismo valor al método de pago registrado. El cliente puede pausar, adelantar o cancelar la suscripción desde su cuenta o por el canal de atención; los cambios aplican si se hacen al menos 3 días antes del siguiente despacho."
+    },
+    {
+      "id": "FAQ-08",
+      "categoria": "devoluciones",
+      "pregunta": "¿Cuánto tarda el reembolso de una devolución?",
+      "respuesta": "Una vez el producto llega al almacén de EcoMarket, la revisión de calidad toma hasta 2 días hábiles y el reembolso se aproba en 5 días hábiles desde la llegada. El dinero regresa al medio de pago original; para pagos en efectivo se hace una transferencia a la cuenta que el cliente registre."
+    },
+    {
+      "id": "FAQ-09",
+      "categoria": "sostenibilidad",
+      "pregunta": "¿Qué hace EcoMarket con los empaques de sus envíos?",
+      "respuesta": "EcoMarket envía sus pedidos en empaques compostables de cartón y relleno de papel reciclado, sin plásticos. Los clientes pueden devolver el cartón y las bolsas compostables al reciclador de su confianza o llevarlos a los puntos verdes asociados en Bogotá y Medellín."
+    },
+    {
+      "id": "FAQ-10",
+      "categoria": "sostenibilidad",
+      "pregunta": "¿Los productos de EcoMarket certificados o tienen alguna garantía?",
+      "respuesta": "Los productos alimenticios (café, mieles, snacks) cuentan con registro sanitario INVIMA. Los artículos de higiene y hogar provienen de artesanos colombianos con certificaciones de sostenibilidad cuando aplica. Toda garantía legal de calidad cubre defectos de fábrica por 6 meses; los defectos se atienden por el canal de atención con foto del problema."
+    },
+    {
+      "id": "FAQ-11",
+      "categoria": "atencion",
+      "pregunta": "¿Cómo hablo con un asesor humano si el asistente no resuelve mi caso?",
+      "respuesta": "Si el asistente no tiene la información o el caso requiere gestión especial (reclamos, casos de fraude, productos dañados fuera de plazo), escribe por WhatsApp al 300 000 0000 de lunes a viernes de 8 a.m. a 6 p.m. o al correo soporte@ecomarket.co. El equipo humano responde en menos de 24 horas hábiles."
+    },
+    {
+      "id": "FAQ-12",
+      "categoria": "atencion",
+      "pregunta": "¿El asistente virtual usa mis datos personales?",
+      "respuesta": "El asistente utiliza únicamente el número de seguimiento para consultar el pedido y no almacena conversaciones con datos personales. EcoMarket trata la información de sus clientes conforme a la Ley 1581 de 2012 (protección de datos personales) y su política de privacidad publicada en el sitio web."
+    }
+  ]
+}

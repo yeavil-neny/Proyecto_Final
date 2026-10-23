@@ -1,0 +1,21 @@
+# Dependencias del agente de devoluciones de EcoMarket (Proyecto Final)
+# Partimos de las del sistema RAG del Taller Practico #2 (misma version base).
+# Probadas en Python 3.13 local con el entorno virtual del Taller 2.
+#
+# Framework: RAG (ruta informativa) + agente con herramientas (ruta de accion)
+langchain>=0.3
+langchain-community>=0.3
+langchain-text-splitters>=0.3
+langchain-core>=0.3
+langchain-openai>=0.3
+langchain-huggingface>=0.3
+langchain-chroma>=0.1
+
+# Base de datos vectorial (ruta informativa, heredada del Taller 2)
+chromadb>=0.5
+
+# Modelo de embeddings open-source (heredado del Taller 2)
+sentence-transformers>=3.0
+
+# Carga de claves locales (script, modo .env)
+python-dotenv>=1.0

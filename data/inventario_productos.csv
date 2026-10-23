@@ -1,0 +1,19 @@
+sku,producto,categoria,precio_cop,stock,disponibilidad,notas
+SKU-001,Kit de cepillos de bambú (3 uds.),Higiene sostenible,45000,24,true,
+SKU-002,Detergente ecológico concentrado 1L,Limpieza,28500,40,true,
+SKU-003,Bolsas reutilizables de algodón (pack 5),Accesorios,32000,60,true,
+SKU-004,Shampoo sólido de avena,Higiene sólida,19900,35,true,
+SKU-005,Acondicionador sólido de coco,Higiene sólida,19900,30,true,
+SKU-006,Envases de vidrio reutilizables (set 3),Hogar,58000,18,true,
+SKU-007,Café orgánico molido 500g,Despensa,52000,50,true,Disponible en suscripción mensual
+SKU-008,Vela de soya aromática (frasco de vidrio),Hogar,36700,22,true,
+SKU-009,Bolsas compostables (pack 50),Limpieza,24000,80,true,
+SKU-010,Jabones artesanales de lavanda (pack 4),Higiene sólida,41000,26,true,
+SKU-011,Crema hidratante de aloe (frasco de vidrio),Higiene sólida,28900,15,true,Bajo stock
+SKU-012,Máquina de afeitar de acero inoxidable,Accesorios,119000,9,true,
+SKU-013,Bolsas de semillas de albahaca,Despensa,8500,100,true,No admite devolución por categoría semillas
+SKU-014,Kit de compostaje de cocina,Hogar,58000,12,true,
+SKU-015,Bálsamo labial de cera de abejas (2 uds.),Higiene sólida,21800,45,true,
+SKU-016,Filtros reutilizables de algodón orgánico,Hogar,19900,28,false,
+SKU-017,Cepillo de bamboo para el cabello,Higiene sostenible,25000,20,true,
+SKU-018,Jabón multiusos sosa natural,Limpieza,15900,0,false,Temporalmente agotado

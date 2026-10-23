@@ -99,7 +99,23 @@ Aplica la política real (`data/politicas_devolucion.md`) con un **motor de regl
 
 ### 4.2 El "discernimiento" pedido por el enunciado
 
-Se demuestra en tres niveles: (a) el **router** separa ejecutar de informar (4.1), (b) el **motor de reglas** distingue defecto de cambio de opinión y alcanza o niega la excepción según el plazo, y pide aclaración cuando no tiene certeza, y (c) el **agente LLM** decide cuándo llamar a cada herramienta y qué pedir al cliente (validado en ejecución con la clave API; los comandos de la demo están en la sección 5).
+Se demuestra en tres niveles: (a) el **router** separa ejecutar de informar (4.1), (b) el **motor de reglas** distingue defecto de cambio de opinión y alcanza o niega la excepción según el plazo, y pide aclaración cuando no tiene certeza, y (c) el **agente LLM** decide cuándo llamar a cada herramienta y qué pedir al cliente.
+
+**Corrida extremo a extremo con el LLM real (Gemini vía endpoint OpenAI-compatible, clave local en `.env`):**
+
+| # | Consulta | Comportamiento observado |
+|---|---|---|
+| 1 | "quiero devolver los envases de vidrio del ECO-10005, ya no los necesito" | Ruta de acción → buscar → verificar (elegible, cambio de opinión) → **emite etiqueta** y cierra con condiciones (sin usar, costo del cliente, reembolso al pasar revisión) |
+| 2 | "quiero devolver el cafe del ECO-10006, no me gusto" | **Rechazo explicado**: categoría no devoluble; cita la excepción (7 días, defecto) |
+| 3 | "quiero devolver los envases de vidrio del ECO-10005" (sin motivo) | Busca el pedido y **pregunta el motivo** en lugar de asumirlo |
+| 4 | "quiero devolver la vela del pedido ECO-10007, llego defectuosa" | Comunica que **ya hay una devolución en proceso**; no duplica etiqueta |
+| 5 | "¿Cuando llega mi pedido ECO-10003?" | Router → ruta informativa (RAG); recuperados sin el propio pedido → **escalado honesto**, sin inventar |
+| 6 | "me llego dañada la maquina de afeitar, quiero devolverla" (sin tracking) | **Pide el número de seguimiento** antes de actuar |
+| 7 | ... del pedido ECO-99955 (inexistente) | Comunica que no existe y pide revisar el número |
+
+### 4.3 Ajuste de transporte documentado: round-trip de firmas de pensamiento (Gemini 3.x)
+
+Los modelos Gemini de la serie 3 exigen reenviar, en cada vuelta del bucle de herramientas, la *thought_signature* (firma de pensamiento) que ellos mismos entregan con cada llamada a función; sin ella la API responde 400. El cliente HTTP de langchain-openai descarta ese campo al reconstruir el historial. La solución (src/agente.py, clases `_ClienteConFirmas` y `ChatGeminiConFirmas`): un proxy del cliente HTTP que cosecha la firma de cada respuesta y la repone en la petición siguiente. El LLM de la ruta informativa no lo necesita (el RAG del Taller #2 no usa herramientas) y queda intacto.
 
 ---
 

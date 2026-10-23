@@ -37,6 +37,7 @@ import re
 import sys
 
 from dotenv import load_dotenv
+from langchain_openai import ChatOpenAI
 
 import herramientas
 import prompts as plantillas
@@ -103,6 +104,75 @@ def enrutar(consulta):
 # ---------------------------------------------------------------------------
 # AGENTE de la ruta de accion (LangChain, create_tool_calling_agent)
 # ---------------------------------------------------------------------------
+
+# --- Transporte OpenAI-compatible de Gemini con round-trip de firmas de
+# pensamiento ---
+#
+# Los modelos Gemini de la serie 3 exigen reenviar, en cada vuelta del bucle
+# de herramientas, la firma de pensamiento (thought_signature) que ellos
+# mismos entregan junto a cada function_call
+# (https://ai.google.dev/gemini-api/docs/thought-signatures). El cliente HTTP
+# de langchain-openai reconstruye el historial desde los mensajes parseados y
+# descarta ese campo, y la API responde 400
+# "Function call is missing a thought_signature". Se resuelve con un proxy
+# del cliente HTTP: cosecha la firma de cada respuesta y la repone en la
+# peticion siguiente, antes de que viaje.
+
+class _ClienteConFirmas:
+    """Proxy del cliente de chat.completions que repone y cosecha firmas."""
+
+    def __init__(self, cliente, firmas):
+        self._cliente = cliente
+        self._firmas = firmas
+        # langchain-openai llama self.client.with_raw_response.create(...):
+        # el proxy expone esa misma superficie.
+        self.with_raw_response = self
+
+    def create(self, **payload):
+        for mensaje in payload.get("messages") or []:
+            if mensaje.get("role") != "assistant":
+                continue
+            for llamada in mensaje.get("tool_calls") or []:
+                firma = self._firmas.get(llamada.get("id"))
+                if firma:
+                    llamada.setdefault("extra_content", {})["google"] = {
+                        "thought_signature": firma
+                    }
+        respuesta = self._cliente.with_raw_response.create(**payload)
+        try:
+            mensaje = respuesta.parse().choices[0].message
+            for llamada in getattr(mensaje, "tool_calls", None) or []:
+                extra = getattr(llamada, "extra_content", None) or (llamada.model_extra or {}).get("extra_content")
+                firma = (extra or {}).get("google", {}).get("thought_signature")
+                if firma and llamada.id:
+                    self._firmas[llamada.id] = firma
+        except Exception:  # la cosecha nunca debe romper el turno del agente
+            pass
+        return respuesta
+
+
+class ChatGeminiConFirmas(ChatOpenAI):
+    """ChatOpenAI que hace el round-trip de las firmas de pensamiento de Gemini.
+
+    El resto del comportamiento es identico al LLM del Taller #2: mismo
+    endpoint OpenAI-compatible de Gemini, mismas dependencias.
+    """
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self._firmas = {}
+        self._cliente_original = self.client
+        self.client = _ClienteConFirmas(self._cliente_original, self._firmas)
+
+
+def llamar_llm_agente(api_key):
+    """LLM del agente: el mismo modelo del Taller #2, con round-trip de firmas."""
+    return ChatGeminiConFirmas(
+        model=rag_ecomarket.MODELO_LLM,
+        api_key=api_key,
+        base_url=rag_ecomarket.BASE_URL_GEMINI,
+        temperature=0.1,  # baja variacion: los dictamenes deben ser fieles
+    )
 
 def construir_agente(llm, herramientas_agente):
     """Construye el agente de LangChain 1.x (create_agent) con las herramientas del modulo herramientas.
@@ -185,12 +255,13 @@ def main():
 
     print("Construyendo el agente: LLM + herramientas de devolucion ...")
     llm = rag_ecomarket.llamar_llm(api_key)
+    llm_agente = llamar_llm_agente(api_key)
     if not args.chat and args.consulta is None:
         parser.error("pasa --consulta o usa --chat")
 
     # La ruta informativa necesita la base vectorial; la de accion, el agente.
     vectorstore = rag_ecomarket.construir_base_conocimiento()
-    ejecutor = construir_agente(llm, herramientas.HERRAMIENTAS)
+    ejecutor = construir_agente(llm_agente, herramientas.HERRAMIENTAS)
 
     if args.consulta is not None:
         respuesta = ejecutar_turno(args.consulta, llm, ejecutor, vectorstore, args.razonamiento)

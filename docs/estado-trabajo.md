@@ -24,7 +24,7 @@ Equipo: **Cristian Humberto Yepes Marin** y **Yenny Alexandra Villarreal Suaza**
 | 3. Análisis crítico | Riesgos éticos/seguridad de agentes que actúan, monitoreo y observabilidad, propuestas de mejora | 1.0 |
 | 4. Despliegue | Interfaz Streamlit o Gradio justificada, demo extremo a extremo | 1.0 |
 
-**Entrega final:** link del repo con las 4 fases documentadas (formato Markdown, igual que los talleres) + **vídeo de máx. 10 minutos** (fase 1: 2–3 min herramientas; fase 2: 3–4 min arquitectura y código; fase 4: demo funcional 3–4 min).
+**Entrega final:** link del repo con las 4 fases documentadas (formato Markdown, igual que los talleres) + **vídeo de máx. 10 minutos** (fase 1: 2–3 min herramientas; fase 2: 3–4 min arquitectura y código; fase 4: demo funcional 3–4 min). Según el programa de la **sesión 6** (semana final de Intu), la entrega incluye además: documento completo o presentación del sistema desarrollado, evidencia del despliegue funcional, **informe breve de evaluación y optimización (KPIs, aprendizajes, mejoras implementadas)** y **autoevaluación o reflexión sobre el impacto organizacional potencial** de la solución. Entregables oficialmente puestos: Proyecto Final + Quiz Unidad #4. La fase 3 ya dejó KPIs, mejoras y reflexión de impacto que sirven de insumo para el informe y la autoevaluación.
 
 ---
 

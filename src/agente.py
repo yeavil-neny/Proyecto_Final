@@ -191,17 +191,20 @@ def construir_agente(llm, herramientas_agente):
     return create_agent(llm, herramientas_agente, system_prompt=plantillas.SYSTEM_AGENTE_ACCION)
 
 
-def _herramientas_ejecutadas(agente, entrada):
-    """Ejecuta el agente y devuelve (respuesta, traza de pasos para observabilidad).
+def _herramientas_ejecutadas(agente, entrada, historial=None):
+    """Ejecuta un turno del agente y devuelve (respuesta, traza, mensajes).
 
-    En LangChain 1.x la traza de intermedios se reconstruye desde los
-    mensajes del estado: cada AIMessage lleva las tool_calls que pidio y el
-    ToolMessage siguiente lleva la salida JSON de la herramienta.
+    historial (opcional) permite la conversacion de varios turnos: los
+    mensajes previos (incluidas las llamadas a herramientas de turnos
+    anteriores) viajan en cada peticion y el proxy de firmas del LLM repone
+    sus thought_signature por id, para que los modelos Gemini 3.x acepten el
+    historial.
     """
-    resultado = agente.invoke({"messages": [{"role": "user", "content": entrada}]})
+    resultado = agente.invoke({"messages": [*(historial or []), {"role": "user", "content": entrada}]})
     mensajes = resultado["messages"]
     trazas = []
-    for mensaje in mensajes:
+    inicio = len(historial) if historial else 0
+    for mensaje in mensajes[inicio:]:
         for llamada in getattr(mensaje, "tool_calls", None) or []:
             trazas.append({
                 "herramienta": llamada["name"],
@@ -211,7 +214,7 @@ def _herramientas_ejecutadas(agente, entrada):
         if trazas and trazas[-1]["salida"] is None and getattr(mensaje, "type", "") == "tool":
             trazas[-1]["salida"] = mensaje.content
     respuesta = mensajes[-1].content
-    return respuesta, trazas
+    return respuesta, trazas, mensajes
 
 
 # ---------------------------------------------------------------------------
@@ -258,22 +261,26 @@ def registrar_turno(consulta, ruta, trazas, respuesta, duracion):
         pass
 
 
-def ejecutar_turno(consulta, llm, ejecutor, vectorstore, mostrar_trazas=True):
-    """Un turno completo pasando por el router. Imprime la ruta elegida y responde."""
+def ejecutar_turno(consulta, llm, ejecutor, vectorstore, mostrar_trazas=True, historial=None):
+    """Un turno completo pasando por el router. Imprime la ruta elegida y responde.
+
+    Devuelve (respuesta, mensajes): los mensajes completos del turno de
+    accion permiten continuar la conversacion en la interfaz (Fase 4).
+    """
     inicio = datetime.datetime.now()
     ruta, razon = enrutar(consulta)
     print(f"(router -> ruta {ruta}: {razon})")
 
     if ruta == "accion":
-        respuesta, trazas = _herramientas_ejecutadas(ejecutor, consulta)
+        respuesta, trazas, mensajes = _herramientas_ejecutadas(ejecutor, consulta, historial)
         if mostrar_trazas:
             _mostrar_trazas(trazas)
     else:
         respuesta = rag_ecomarket.responder(consulta, vectorstore, llm)
-        trazas = []
+        trazas, mensajes = [], []
 
     registrar_turno(consulta, ruta, trazas, respuesta, (datetime.datetime.now() - inicio).total_seconds())
-    return respuesta
+    return respuesta, mensajes
 
 
 def main():
@@ -300,12 +307,13 @@ def main():
     ejecutor = construir_agente(llm_agente, herramientas.HERRAMIENTAS)
 
     if args.consulta is not None:
-        respuesta = ejecutar_turno(args.consulta, llm, ejecutor, vectorstore, args.razonamiento)
+        respuesta, _mensajes = ejecutar_turno(args.consulta, llm, ejecutor, vectorstore, args.razonamiento)
         print("\nRespuesta:\n")
         print(respuesta)
         return
 
     print("Agente de EcoMarket listo. Escribe 'salir' para terminar.\n")
+    historial = []  # mensajes completos de la conversacion (turnos de accion)
     while True:
         consulta = input("\nTu consulta: ").strip()
         if consulta.lower() == "salir":
@@ -313,7 +321,11 @@ def main():
         if not consulta:
             continue
         try:
-            respuesta = ejecutar_turno(consulta, llm, ejecutor, vectorstore, args.razonamiento)
+            respuesta, mensajes = ejecutar_turno(
+                consulta, llm, ejecutor, vectorstore, args.razonamiento, historial=historial
+            )
+            if mensajes:
+                historial = mensajes
             print("\nRespuesta:\n")
             print(respuesta)
         except Exception as error:

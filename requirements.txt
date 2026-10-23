@@ -19,3 +19,6 @@ sentence-transformers>=3.0
 
 # Carga de claves locales (script, modo .env)
 python-dotenv>=1.0
+
+# Interfaz web de la Fase 4 (eleccion justificada en docs/fase4-despliegue.md)
+streamlit>=1.49

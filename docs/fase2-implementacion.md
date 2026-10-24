@@ -23,7 +23,7 @@ data/                     Corpus del Taller #2 + etiquetas_emitidas.json (regist
 
 El RAG del Taller #2 no se reescribió: se reutilizó **como está** (mismos embeddings, misma base Chroma con similitud coseno, umbral 0.55 con k=4 y escalado honesto), y el agente reúne el mismo LLM (`ChatOpenAI` con endpoint OpenAI-compatible de Gemini) y la misma clave API. Continuidad que la propuesta (3.3) elegió como criterio.
 
-**Nota de versión:** la propuesta mencionaba el par `create_tool_calling_agent`/`AgentExecutor` (API de LangChain 0.x). El entorno ejecuta **LangChain 1.x**, que los reemplazó por el constructor `create_agent` (mismo ciclo de decisión: el modelo elige herramienta y argumentos, el runtime ejecuta la función y alimenta al modelo hasta la respuesta final). La equivalencia queda registrada aquí y en las bitácoras de sesión.
+**Nota de versión:** la propuesta mencionaba el par `create_tool_calling_agent`/`AgentExecutor` (API de LangChain 0.x). El entorno ejecuta **LangChain 1.x**, que los reemplazó por el constructor `create_agent` (mismo ciclo de decisión: el modelo elige herramienta y argumentos, el runtime ejecuta la función y alimenta al modelo hasta la respuesta final); la equivalencia queda registrada aquí.
 
 ### 1.2 El reloj simulado (decisión documentada)
 

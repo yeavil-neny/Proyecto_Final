@@ -18,7 +18,7 @@ docs/fase2-implementacion.md):
           pedido elegible y la verificacion interna coincide; persiste el
           registro en data/etiquetas_emitidas.json (auditable, Fase 3).
 
-Decisiones de diseno importantes (tambien documentadas en la bitacora):
+Decisiones de diseno importantes (tambien documentadas en docs/fase2-implementacion.md):
 
 - Todo es SIMULADO sobre los archivos de data/ del Taller #2 (pedidos.json,
   inventario_productos.csv, politicas_devolucion.md): no hay backend real.

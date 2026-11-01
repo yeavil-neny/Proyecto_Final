@@ -167,11 +167,4 @@ python src/agente.py --chat
 
 ---
 
-## 6. Límites declarados de la fase (alimentan la Fase 3)
-
-- Todo es simulado sobre los JSON/CSV del corpus; la "etiqueta" es un registro, no una guía real.
-- Clasificar el motivo por palabras clave es frágil ante formulaciones fuera de las huellas — por eso el dictamen pide aclaración en lugar de asumir; con LLM en ejecución se evalúa si el agente lo pide bien.
-- El router por reglas cubre las formulaciones de los casos probados; las reglas son auditables pero incompletas por definición (se discute en la Fase 3 con métrica de enrutamientos equivocados).
-- El discernimiento del agente LLM en vivo se comprobó una sola vez (los 7 casos de la sección 4.2, del 2026-10-23): la ejecución no determinista del modelo amerita repetirla como suite nocturna con verificación de claves de conducta — propuesta 7 de la Fase 3.
-- El reloj simulado fija el "hoy" en la fecha del corpus; con la fecha real del sistema los plazos del corpus quedarían vencidos.
-- El análisis de riesgos, la observabilidad y las propuestas de mejora se desarrollaron en la Fase 3, con el código ya en ejecución.
+*Los límites de esta fase se declaran y analizan en [`fase3-analisis-critico.md`](fase3-analisis-critico.md) (apartado "Límites declarados en la Fase 2"), junto con el análisis crítico que los consume.*

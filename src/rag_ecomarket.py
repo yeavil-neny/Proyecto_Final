@@ -289,18 +289,51 @@ def construir_base_conocimiento():
 # Recuperación con verificación de pertinencia (el "reflection" del agente)
 # ---------------------------------------------------------------------------
 
+def _ancla_de_pedido(vectorstore, consulta):
+    """Chunk del pedido al que alude el tracking concreto (mejora P1, Fase 3).
+
+    La similitud semántica puede dejar fuera el chunk del pedido preguntado
+    aunque exista (medición real: la consulta sobre el estado del pedido
+    ECO-10003 recuperó otros pedidos y escaló con honestidad). Si la consulta
+    menciona un tracking que existe en el registro de pedidos, se devuelve su
+    chunk para inyectarlo al frente del contexto: el ancla complementa a la
+    búsqueda semántica, no la sustituye.
+    """
+    coincidencia = PATRON_TRACKING.search(consulta.upper())
+    if not coincidencia:
+        return None
+    tracking = coincidencia.group(0)
+    registro = json.load(open(os.path.join(RUTA_DATOS, "pedidos.json"), encoding="utf-8"))
+    if tracking not in {p["tracking_number"] for p in registro.get("pedidos", [])}:
+        return None  # un tracking inexistente conserva el comportamiento original
+    candidatos = vectorstore.similarity_search(consulta, k=1, filter={"tracking": tracking})
+    return candidatos[0] if candidatos else None
+
+
 def recuperar(vectorstore, consulta, k=K_CHUNKS):
     """Busca los k chunks más similares y devuelve pares (documento, distancia).
 
     Si la consulta contiene un número de seguimiento ECO-XXXXX, la búsqueda
     se filtra a los documentos de tipo "pedido": es una consulta sobre un
     registro específico y los chunks de política o catálogo serían ruido.
+
+    Con un tracking que existe en el registro, el chunk de ese pedido se
+    ancla al frente del contexto con distancia 0 (coincidencia exacta, no
+    semántica): la mejora P1 de la Fase 3, para que una consulta sobre un
+    pedido existente no escale por un capricho de la similitud sin sentido.
     """
-    if PATRON_TRACKING.search(consulta.upper()):
-        return vectorstore.similarity_search_with_score(
-            consulta, k=k, filter={"tipo": "pedido"}
-        )
-    return vectorstore.similarity_search_with_score(consulta, k=k)
+    filtro = {"tipo": "pedido"} if PATRON_TRACKING.search(consulta.upper()) else None
+    resultados = (
+        vectorstore.similarity_search_with_score(consulta, k=k, filter=filtro)
+        if filtro
+        else vectorstore.similarity_search_with_score(consulta, k=k)
+    )
+    ancla = _ancla_de_pedido(vectorstore, consulta)
+    if ancla is not None and ancla.metadata.get("tracking") not in {
+        doc.metadata.get("tracking") for doc, _ in resultados
+    }:
+        resultados.insert(0, (ancla, 0.0))
+    return resultados
 
 def formatear_contexto(resultados):
     """Junta los chunks recuperados en el texto del bloque de contexto."""
@@ -356,7 +389,9 @@ def responder(consulta, vectorstore, llm, umbral=UMBRAL_DISTANCIA, k=K_CHUNKS, m
         for doc, distancia in resultados:
             meta = doc.metadata
             identificador = meta.get("tracking") or meta.get("sku") or meta.get("seccion") or meta.get("id", "")
-            print(f"  - {meta.get('tipo')} {identificador} (distancia={distancia:.3f})")
+            anotacion = ("ancla de coincidencia exacta" if distancia == 0.0
+                         else f"distancia={distancia:.3f}")
+            print(f"  - {meta.get('tipo')} {identificador} ({anotacion})")
 
     if not hay_material_pertinente(resultados, umbral):
         print("  -> Ningún chunk superó el umbral de pertinencia; el asistente escala con honestidad.")

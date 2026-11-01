@@ -1,0 +1,28 @@
+﻿Indexando 'politica': 8 chunks
+Indexando 'pedido': 12 chunks
+Indexando 'inventario': 18 chunks
+Indexando 'faq': 12 chunks
+Calculando embeddings con sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2 ...
+Base de conocimiento lista: 50 chunks en ChromaDB.
+
+Evidencia: mejora P1 (ancla de coincidencia exacta del tracking)
+Fecha: 2026-11-01, sin LLM (solo recuperacion, 0 peticiones de cuota)
+
+Caso 1 - la consulta de la demo del video: ¿Cual es el estado del pedido ECO-10003?
+  - pedido ECO-10003 distancia=0.0 (ancla de coincidencia exacta)
+  - pedido ECO-10008 distancia=0.379
+  - pedido ECO-10005 distancia=0.42
+  - pedido ECO-10007 distancia=0.453
+  - pedido ECO-10002 distancia=0.453
+
+Caso 2 - consulta sin tracking (comportamiento intacto): ¿Que productos no se pueden devolver?
+  - politica Productos que NO se pueden devolver distancia=0.251
+  - politica Productos que NO se pueden devolver distancia=0.378
+  - politica Excepciones distancia=0.425
+  - politica Productos que NO se pueden devolver distancia=0.452
+
+Caso 3 - tracking inexistente ECO-99999 (sin ancla, escalamiento honesto intacto)
+  - pedido ECO-10008 distancia=0.437
+  - pedido ECO-10005 distancia=0.499
+  - pedido ECO-10003 distancia=0.501
+  - pedido ECO-10007 distancia=0.503

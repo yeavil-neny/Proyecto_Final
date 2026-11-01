@@ -28,7 +28,7 @@ Se evaluaron las dos opciones del enunciado con los criterios que pide justifica
 | Intuitiva | Botones de ejemplo en el margen (escenarios de demo de un clic), indicador de reinicio de conversación y aviso permanente de simulación educativa |
 | Demo extremo a extremo | La misma conversación mantiene los turnos (el agente recuerda lo preguntado en el turno anterior); el registro de turnos JSONL sigue alimentando la observabilidad de la Fase 3 |
 
-**Arranque verificado sin API:** la prueba `_build/arranque_interfaz.py` usa el framework de pruebas de Streamlit (`AppTest`) y confirma que la página construye el asistente (embeddings, base vectorial, agente), renderiza sin excepciones y deja el campo de consulta listo — sin gastar cuota del LLM.
+**Arranque verificado sin API:** la prueba `_build/arranque_interfaz.py` usa el framework de pruebas de Streamlit (`AppTest`) y confirma que la página construye el asistente (embeddings, base vectorial, agente), renderiza sin excepciones y deja el campo de consulta listo — sin gastar cuota del LLM. **Evidencia visual:** `docs/evidencias/interfaz-streamlit.png` es una captura real de la interfaz en ejecución (Chrome headless vía Playwright, con el script reproducible `_build/captura_interfaz.py`).
 
 ## 3. Cómo ejecutar
 

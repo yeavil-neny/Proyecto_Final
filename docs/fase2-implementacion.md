@@ -121,7 +121,7 @@ Los modelos Gemini de la serie 3 exigen reenviar, en cada vuelta del bucle de he
 
 ## 5. Cómo ejecutar
 
-**Diagrama de flujo del proceso de devolución** (router, decisiones del agente y llamadas a las herramientas): [`flujo-devolucion-agente.html`](flujo-devolucion-agente.html) — diagrama interactivo con tema claro/oscuro, zoom, búsqueda y rastreo de relaciones; el botón *Export* exporta PNG/SVG para el documento y el video (generado con Archify, validación completa: 9/9 checks, 0 errores, 0 advertencias).
+**Diagrama de flujo del proceso de devolución** (router, decisiones del agente y llamadas a las herramientas): [versión interactiva en GitHub Pages](https://yeavil-neny.github.io/Proyecto_Final/docs/flujo-devolucion-agente.html) — diagrama interactivo con tema claro/oscuro, zoom, búsqueda y rastreo de relaciones; el botón *Export* exporta PNG/SVG para el documento y el video (generado con Archify, validación completa: 9/9 checks, 0 errores, 0 advertencias). *Si el enlace no estuviera disponible, el mismo diagrama está en [el OneDrive de la universidad](https://icesiedu-my.sharepoint.com/:u:/g/personal/1112300387_u_icesi_edu_co/IQCepidtD2U9Sptww-2EEqJfAZvWxYq-pm8MwYSGCQ9ocM8?e=cLL1p8).*
 
 ```bash
 # 1. Entorno: python 3.12+ con requirements.txt de este repo

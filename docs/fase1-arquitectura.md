@@ -29,7 +29,7 @@ El flujo completo con las decisiones del router, las del agente y las llamadas a
 
 ![Flujo de trabajo del agente de devoluciones de EcoMarket](assets/flujo-devolucion-agente.png)
 
-El diagrama anterior es la imagen estática del flujo; la versión interactiva (tema claro/oscuro, zoom, búsqueda, rastreo de relaciones, exportación a PNG/SVG) está en [`flujo-devolucion-agente.html`](flujo-devolucion-agente.html).
+El diagrama anterior es la imagen estática del flujo; la **versión interactiva** (tema claro/oscuro, zoom, búsqueda, rastreo de relaciones, exportación a PNG/SVG) está publicada en GitHub Pages: [flujo-devolucion-agente.html](https://yeavil-neny.github.io/Proyecto_Final/docs/flujo-devolucion-agente.html) — se abre en una pestaña del navegador sin entrar a este repositorio. *Si el enlace no estuviera disponible, el mismo diagrama se puede ver en el OneDrive de la universidad: [versión en OneDrive](https://icesiedu-my.sharepoint.com/:u:/g/personal/1112300387_u_icesi_edu_co/IQCepidtD2U9Sptww-2EEqJfAZvWxYq-pm8MwYSGCQ9ocM8?e=cLL1p8).*
 
 Lectura del flujo paso a paso:
 

@@ -40,21 +40,14 @@ streamlit run src/app_devoluciones.py
 
 La primera carga tarda ~1 minuto (calcula los embeddings y arma la base vectorial: 50 chunks); las recargas siguientes reutilizan el agente ya construido. Sin la clave, la interfaz avisó con las instrucciones.
 
-## 4. Guion de la demo funcional para el video (3–4 minutos)
+## 4. Evidencia de la demostración funcional (video)
 
-Con la cuota diaria del LLM disponible (la corrida del 2026-10-23 agotó el Free Tier del día: 20 peticiones; alternar con la clave del otro integrante), la secuencia dentro de la interfaz:
+La demostración funcional quedó grabada en el **video del proyecto** (máximo exigido por el enunciado: 10 minutos), publicado en el OneDrive de la universidad:
 
-| Momento | Consulta | Lo que muestra |
-|---|---|---|
-| 0:00–0:20 | — | Pantalla inicial: explicación de la arquitectura en el margen |
-| 0:20–1:10 | "Quiero devolver los envases de vidrio del ECO-10005, ya no los necesito" | Éxito completo: router → agente → 3 herramientas → etiqueta; **abrir el expander del razonamiento** |
-| 1:10–1:50 | "¿Cuál es el estado del pedido ECO-10003?" | Ruta informativa: RAG responde o escala con detalle de fuentes |
-| 1:50–2:30 | "¿Qué productos no se pueden devolver?" | Segundo caso informativo (política con citas) |
-| 2:30–3:10 | "Quiero devolver el café del ECO-10006, no me gustó" | Rechazo explicado con la regla exacta |
-| 3:10–3:50 | "Quiero devolver los envases de vidrio del ECO-10005" y luego "llegó defectuosa" | Conversación de varios turnos: el agente pide el motivo y al recibirlo completa el flujo |
-| Cierre | — | Mostrar `data/etiquetas_emitidas.json` y `data/registro_turnos.jsonl` (auditoría de demo) |
+→ **[Ver el video (EcoMarket — Proyecto Final IA Generativa) en OneDrive](https://icesiedu-my.sharepoint.com/:v:/g/personal/1112300387_u_icesi_edu_co/IQD2W4IJbh2IS5N6QFjengUCAd_lb8S1bzJVcE3h9WuxV2o?nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJPbmVEcml2ZUZvckJ1c2luZXNzIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXciLCJyZWZlcnJhbFZpZXciOiJNeUZpbGVzTGlua0NvcHkifX0&e=k2dvqm)**
 
-El video completo se divide entonces: herramientas de la Fase 1 con el diagrama de flujo de [`fase1-arquitectura.md`](fase1-arquitectura.md) (2–3 min), arquitectura y código de la Fase 2 con [`fase2-implementacion.md`](fase2-implementacion.md) (3–4 min) y esta demo (3–4 min).
+- **Contenido del video:** explicación de las herramientas de la Fase 1 con el diagrama de flujo; arquitectura y código de la Fase 2 (router determinista, contratos JSON, LangChain 1.x, el ajuste de firmas de pensamiento y la corrida de la suite de pruebas en vivo); y la demostración funcional de esta interfaz (flujo completo de devolución con emisión de etiqueta y expander del razonamiento, ruta informativa con el RAG y su ancla de coincidencia exacta, rechazo explicado y conversación de varios turnos).
+- Las corridas de las pruebas que sustentan lo dicho en el video dejan su evidencia versionada en este repositorio: [`docs/evidencias/`](evidencias/) (las pruebas deterministas caso por caso, la verificación del ancla de recuperación y la captura real de la interfaz).
 
 ## 5. Límites declarados de la fase
 

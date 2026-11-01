@@ -1,6 +1,6 @@
 {
   "titulo": "Corrida de las pruebas deterministas de la Fase 2",
-  "fecha_corrida": "2026-11-01 01:08:37",
+  "fecha_corrida": "2026-11-01 05:12:31",
   "reloj_simulado": "2026-09-17 (fecha_base del corpus de data/pedidos.json)",
   "entorno": "Python 3.11.9 en Windows 10",
   "comando": "python src/pruebas_fase2.py --reporte",
@@ -194,7 +194,7 @@
       "seccion": "generar_etiqueta_devolucion",
       "caso": "dictamen elegible -> emite etiqueta con numero y guia",
       "resultado": "PASA",
-      "detalle": "{\"exito\": true, \"etiqueta\": {\"numero_etiqueta\": \"EL-001\", \"numero_guia\": \"DEV-10005-01\", \"transportadora\": \"EcoEnvíos\", \"direccion_recepcion\": \"Bodega 7, Parque Industrial Sabana N"
+      "detalle": "{\"exito\": true, \"duplicado\": true, \"mensaje\": \"Esta etiqueta ya fue emitida en esta sesion: no se emite de nuevo.\", \"etiqueta\": {\"numero_etiqueta\": \"EL-001\", \"numero_guia\": \"DEV-10"
     },
     {
       "seccion": "generar_etiqueta_devolucion",

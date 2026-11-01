@@ -29,6 +29,7 @@ import io
 import json
 import os
 import sys
+import time
 from contextlib import redirect_stdout
 
 import streamlit as st
@@ -169,6 +170,7 @@ if consulta:
         st.markdown(consulta)
 
     try:
+        inicio = time.monotonic()
         ruta, razon = agente.enrutar(consulta)
         nuevo_mensaje = {"autor": "asistente", "ruta": ruta, "razon": razon}
         if ruta == "accion":
@@ -180,6 +182,16 @@ if consulta:
         else:
             texto, detalle = turno_informativo(consulta)
             nuevo_mensaje |= {"texto": texto, "detalle_de_ruta": detalle or None}
+        # Mismo registro de observabilidad que la terminal (archivo JSONL,
+        # una linea por turno: data/registro_turnos.jsonl). Si la escritura
+        # falla, la conversacion no se ve afectada.
+        agente.registrar_turno(
+            consulta,
+            ruta,
+            nuevo_mensaje.get("trazas", []),
+            nuevo_mensaje["texto"],
+            time.monotonic() - inicio,
+        )
         st.session_state["mensajes"].append(nuevo_mensaje)
         st.rerun()
     except Exception as error:

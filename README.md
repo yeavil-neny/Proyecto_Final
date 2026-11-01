@@ -1,10 +1,10 @@
 # Proyecto Final — Agente de IA para Automatización de Tareas
 
-**Curso:** IA Generativa — Unidad 3: Automatización de Tareas con IA Generativa
+**Curso:** IA Generativa — Unidad 4: Ingeniería de Software con Agentes y herramientas de próxima generación
 **Caso de estudio:** EcoMarket, e-commerce de productos sostenibles
 **Equipo:** Cristian Humberto Yepes Marin y Yenny Alexandra Villarreal Suaza
 
-Proyecto en construcción: extensión del asistente RAG del [Taller Práctico #2](https://github.com/yeavil-neny/IA_Generativa_Taller2_RAG) hacia un **agente de IA** capaz de ejecutar el proceso de devolución de productos de EcoMarket de forma autónoma (verificación de elegibilidad y generación de la etiqueta), desplegado en una interfaz web con Streamlit o Gradio.
+Proyecto Final del curso: extensión del asistente RAG del [Taller Práctico #2](https://github.com/yeavil-neny/IA_Generativa_Taller2_RAG) hacia un **agente de IA** capaz de ejecutar el proceso de devolución de productos de EcoMarket de forma autónoma (verificación de elegibilidad y generación de la etiqueta), desplegado en una interfaz web con Streamlit o Gradio.
 
 ## Estructura planeada
 

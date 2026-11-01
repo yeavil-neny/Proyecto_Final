@@ -6,7 +6,7 @@ Este documento es el **cuaderno de bitácora del proyecto**: resume qué se ha h
 
 ## 1. Contexto general del curso
 
-Proyecto Final de la asignatura **IA Generativa — Unidad 3: Automatización de Tareas con IA Generativa**.
+Proyecto Final de la asignatura **IA Generativa — Unidad 4: Ingeniería de Software con Agentes y herramientas de próxima generación** (el Proyecto Final es una actividad de la Semana 6 de esa unidad; el código parte del Taller Práctico #2, que es de la **Unidad 3: Automatización de Tareas con IA Generativa**).
 Caso de estudio: **EcoMarket**, e-commerce de productos sostenibles (el mismo de todos los talleres).
 Equipo: **Cristian Humberto Yepes Marin** y **Yenny Alexandra Villarreal Suaza**.
 
@@ -15,7 +15,7 @@ Equipo: **Cristian Humberto Yepes Marin** y **Yenny Alexandra Villarreal Suaza**
 - Taller Práctico #2: https://github.com/yeavil-neny/IA_Generativa_Taller2_RAG (sistema RAG completo — **es el punto de partida obligatorio de este proyecto**)
 - Proyecto Final: este repositorio
 
-**Enunciado y rúbrica:** el PDF oficial está en la carpeta local `Documentacion/` (va en `.gitignore`, no se publica al repo). Resumen de las 4 fases y puntajes:
+**Enunciado y rúbrica:** el PDF oficial está en la carpeta local `Documentacion/` (va en `.gitignore`, no se publica al repo). Resumen de las 4 fases y puntajes (total de la rúbrica: **5 puntos**):
 
 | Fase | Qué exige | Puntos |
 |---|---|---|

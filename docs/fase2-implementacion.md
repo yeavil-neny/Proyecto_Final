@@ -126,7 +126,7 @@ Además, con `python src/pruebas_fase2.py --reporte` la corrida escribe su propi
 
 Se demuestra en tres niveles: (a) el **router** separa ejecutar de informar (4.1), (b) el **motor de reglas** distingue defecto de cambio de opinión y alcanza o niega la excepción según el plazo, y pide aclaración cuando no tiene certeza, y (c) el **agente LLM** decide cuándo llamar a cada herramienta y qué pedir al cliente.
 
-**Corrida extremo a extremo con el LLM real (Gemini vía endpoint OpenAI-compatible, clave local en `.env`):**
+**Corridas extremo a extremo con el LLM real (Gemini vía endpoint OpenAI-compatible, clave local en `.env`):** la tabla refleja la corrida del 2026-10-23; las corridas del 2026-11-01 (la demo grabada en el video del proyecto, con otra clave del equipo) reconfirmaron los mismos casos después de implementar la mejora P1 y la continuación del router en la conversación.
 
 | # | Consulta | Comportamiento observado |
 |---|---|---|

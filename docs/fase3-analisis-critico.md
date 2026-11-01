@@ -10,7 +10,7 @@ Código evaluado: la Fase 2 implementada ([`fase2-implementacion.md`](fase2-impl
 - Todo es simulado sobre los JSON/CSV del corpus; la "etiqueta" es un registro, no una guía real.
 - Clasificar el motivo por palabras clave es frágil ante formulaciones fuera de las huellas — por eso el dictamen pide aclaración en lugar de asumir; con LLM en ejecución se evalúa si el agente lo pide bien.
 - El router por reglas cubre las formulaciones de los casos probados; las reglas son auditables pero incompletas por definición (se discute con la métrica de enrutamiento correcto de la sección 3 de KPIs).
-- El discernimiento del agente LLM en vivo se comprobó una sola vez (los 7 casos de Fase 2, sección 4.2): la ejecución no determinista del modelo amerita repetirla como suite nocturna con verificación de claves de conducta — propuesta 7 de esta fase.
+- El discernimiento del agente LLM en vivo se comprobó en **varias corridas manuales**: los 7 casos de la Fase 2 (2026-10-23) y las corridas y la demo del 2026-11-01 (con otra clave API, grabadas en el video del proyecto). El límite real es que esas ejecuciones son manuales: faltan una ejecución repetible y automática con verificación de claves de conducta (no del texto literal) — propuesta 7 de esta fase.
 - El reloj simulado fija el "hoy" en la fecha del corpus; con la fecha real del sistema los plazos del corpus quedarían vencidos.
 
 ---

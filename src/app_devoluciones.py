@@ -171,7 +171,11 @@ if consulta:
 
     try:
         inicio = time.monotonic()
-        ruta, razon = agente.enrutar(consulta)
+        # Si el turno anterior fue del agente (la conversacion puede estar
+        # esperando un dato: el tracking, el producto o el motivo), la
+        # respuesta del cliente reanuda el flujo (continuacion en el router).
+        orden_en_curso = bool(st.session_state["historial_agente"])
+        ruta, razon = agente.enrutar(consulta, orden_en_curso=orden_en_curso)
         nuevo_mensaje = {"autor": "asistente", "ruta": ruta, "razon": razon}
         if ruta == "accion":
             respuesta, trazas, mensajes_completos = turno_agente(

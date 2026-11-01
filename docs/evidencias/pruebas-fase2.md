@@ -3,10 +3,10 @@
 Generada automaticamente por `src/pruebas_fase2.py` con el comando
 `python src/pruebas_fase2.py --reporte`.
 
-- **Fecha de la corrida:** 2026-11-01 05:12:31
+- **Fecha de la corrida:** 2026-11-01 05:58:25
 - **Reloj simulado usado por las herramientas:** 2026-09-17 (fecha_base del corpus de data/pedidos.json)
-- **Entorno:** Python 3.11.9 en Windows 10
-- **Resultado: 36/36 casos PASAN.**
+- **Entorno:** Python 3.13.5 en Windows 11
+- **Resultado: 39/39 casos PASAN.**
 
 ## Router
 
@@ -23,6 +23,13 @@ Generada automaticamente por `src/pruebas_fase2.py` con el comando
 | PASA | "¿Cuál es el plazo de devolución?" -> informativa | [pregunta sobre el plazo; router: forma de pregunta o consulta sobre la politica] |
 | PASA | "Necesito una devolución del pedido ECO-10009" -> accion | [primera persona + sustantivo; router: consenso de orden de devolucion sin forma de pregunta] |
 | PASA | "Hola, ¿qué tal?" -> informativa | [saludo sin orden; router: forma de pregunta o consulta sobre la politica] |
+## Router con historial (continuacion de una orden en curso)
+
+| Resultado | Caso | Detalle |
+|---|---|---|
+| PASA | con orden en curso, "llegaron defectuosos" -> accion | [respuesta del cliente que reanuda el flujo; router: consenso de orden de devolucion sin forma de pregunta] |
+| PASA | con orden en curso, "está dañado" -> accion | [respuesta del cliente que reanuda el flujo; router: continuacion de la devolucion en curso: el agente espera un dato del cliente] |
+| PASA | con orden en curso, "¿Y cuál es el plazo de devolución?" -> informativa | [una pregunta sigue informativa aun con la orden en curso; router: forma de pregunta o consulta sobre la politica] |
 ## buscar_pedido
 
 | Resultado | Caso | Detalle |
@@ -54,7 +61,7 @@ Generada automaticamente por `src/pruebas_fase2.py` con el comando
 
 | Resultado | Caso | Detalle |
 |---|---|---|
-| PASA | dictamen elegible -> emite etiqueta con numero y guia | {"exito": true, "duplicado": true, "mensaje": "Esta etiqueta ya fue emitida en esta sesion: no se emite de nuevo.", "etiqueta": {"numero_etiqueta": "EL-001", "numero_guia": "DEV-10 |
+| PASA | dictamen elegible -> emite etiqueta con numero y guia | {"exito": true, "etiqueta": {"numero_etiqueta": "EL-001", "numero_guia": "DEV-10005-01", "transportadora": "EcoEnvíos", "direccion_recepcion": "Bodega 7, Parque Industrial Sabana N |
 | PASA | segunda emision del mismo pedido -> no duplica (devuelve la ya emitida) | {"exito": true, "duplicado": true, "mensaje": "Esta etiqueta ya fue emitida en esta sesion: no se emite de nuevo.", "etiqueta": {"numero_etiqueta": "EL-001", "numero_guia": "DEV-10 |
 | PASA | dictamen improvisado por el agente (sin verificacion) -> dictamen_invalido o no elegible | {"exito": false, "error": "elegibilidad_no_reproducible", "mensaje": "La re-verificacion interna de elegibilidad no coincide con el dictamen: no se emite la etiqueta. Explica al cl |
 | PASA | dictamen con elegible=false -> no emite (no_elegible_o_dictamen_incoherente) | {"exito": false, "error": "no_elegible_o_dictamen_incoherente", "mensaje": "No se emite etiqueta: el dictamen no declara este pedido como elegible. Nunca generes etiqueta sin un di |

@@ -1,12 +1,12 @@
 {
   "titulo": "Corrida de las pruebas deterministas de la Fase 2",
-  "fecha_corrida": "2026-11-01 05:12:31",
+  "fecha_corrida": "2026-11-01 05:58:25",
   "reloj_simulado": "2026-09-17 (fecha_base del corpus de data/pedidos.json)",
-  "entorno": "Python 3.11.9 en Windows 10",
+  "entorno": "Python 3.13.5 en Windows 11",
   "comando": "python src/pruebas_fase2.py --reporte",
   "resumen": {
-    "total": 36,
-    "pasan": 36,
+    "total": 39,
+    "pasan": 39,
     "fallos": 0
   },
   "casos": [
@@ -75,6 +75,24 @@
       "caso": "\"Hola, ¿qué tal?\" -> informativa",
       "resultado": "PASA",
       "detalle": "[saludo sin orden; router: forma de pregunta o consulta sobre la politica]"
+    },
+    {
+      "seccion": "Router con historial (continuacion de una orden en curso)",
+      "caso": "con orden en curso, \"llegaron defectuosos\" -> accion",
+      "resultado": "PASA",
+      "detalle": "[respuesta del cliente que reanuda el flujo; router: consenso de orden de devolucion sin forma de pregunta]"
+    },
+    {
+      "seccion": "Router con historial (continuacion de una orden en curso)",
+      "caso": "con orden en curso, \"está dañado\" -> accion",
+      "resultado": "PASA",
+      "detalle": "[respuesta del cliente que reanuda el flujo; router: continuacion de la devolucion en curso: el agente espera un dato del cliente]"
+    },
+    {
+      "seccion": "Router con historial (continuacion de una orden en curso)",
+      "caso": "con orden en curso, \"¿Y cuál es el plazo de devolución?\" -> informativa",
+      "resultado": "PASA",
+      "detalle": "[una pregunta sigue informativa aun con la orden en curso; router: forma de pregunta o consulta sobre la politica]"
     },
     {
       "seccion": "buscar_pedido",
@@ -194,7 +212,7 @@
       "seccion": "generar_etiqueta_devolucion",
       "caso": "dictamen elegible -> emite etiqueta con numero y guia",
       "resultado": "PASA",
-      "detalle": "{\"exito\": true, \"duplicado\": true, \"mensaje\": \"Esta etiqueta ya fue emitida en esta sesion: no se emite de nuevo.\", \"etiqueta\": {\"numero_etiqueta\": \"EL-001\", \"numero_guia\": \"DEV-10"
+      "detalle": "{\"exito\": true, \"etiqueta\": {\"numero_etiqueta\": \"EL-001\", \"numero_guia\": \"DEV-10005-01\", \"transportadora\": \"EcoEnvíos\", \"direccion_recepcion\": \"Bodega 7, Parque Industrial Sabana N"
     },
     {
       "seccion": "generar_etiqueta_devolucion",

@@ -13,7 +13,7 @@ La Fase 2 toma el sistema RAG del Taller #2 (Ruta informativa) y lo extiende con
 |---|---|
 | **Extensión del Código Base**: partir del código del Taller 2, definir las herramientas como funciones e inicializar el agente | Sección 1.1 (el RAG se reutiliza sin cambios), sección 2 (las 3 herramientas como funciones con contrato JSON) y sección 3 (inicialización con `create_agent`) |
 | **Manejo de Respuestas**: el agente formatea la respuesta de vuelta al usuario de manera clara y amigable, manejando el éxito y los errores | Sección 2 (los contratos: errores explícitos redactados como instrucciones al agente), **sección 2.4** (del JSON a la respuesta al usuario) y sección 3 (protocolo del tono en el prompt); comprobado con los 7 casos en vivo de la sección 4.2 |
-| **Evaluación del Comportamiento**: probar con diferentes prompts que el agente discerna cuándo usar herramientas y cuándo responder directo | Sección 4 (36 casos deterministas sin API + 7 casos en vivo con el LLM real) |
+| **Evaluación del Comportamiento**: probar con diferentes prompts que el agente discerna cuándo usar herramientas y cuándo responder directo | Sección 4 (39 casos deterministas sin API + 7 casos en vivo con el LLM real) |
 
 La estructura del repositorio:
 
@@ -110,13 +110,14 @@ El JSON del registro (`data/registro_turnos.jsonl`, Fase 3) guarda tanto el JSON
 
 ### 4.1 Pruebas deterministas (sin LLM): `python src/pruebas_fase2.py`
 
-**36 casos, todos PASAN** (resultado de la corrida completa):
+**39 casos, todos PASAN** (resultado de la corrida completa, con evidencia versionada):
 
 Además, con `python src/pruebas_fase2.py --reporte` la corrida escribe su propia **evidencia caso por caso** en `docs/evidencias/pruebas-fase2.md` y `docs/evidencias/pruebas-fase2.json` (fecha de la corrida, reloj simulado, entorno y la salida JSON compacta de cada caso) — evidencia versionada en el repo y reproducible con el mismo comando.
 
 | Grupo | Casos cubiertos |
 |---|---|
 | Router (11) | Órdenes con y sin tracking, imperativos, defecto + petición de etiqueta → **acción**; preguntas de estado, proceso, política, plazo, condicionales, saludo → **informativa** |
+| Router con historial (3) | La **continuación de una orden en curso**: con el agente esperando un dato, la respuesta del cliente reanuda el flujo ("llegaron defectuosos", "está dañado") → **acción**; y una pregunta (el plazo) sigue informativa aun en mitad de la orden |
 | `buscar_pedido` (5) | Éxito, rescate del patrón dentro de texto, formato inválido, inexistente, argumento vacío |
 | `verificar_elegibilidad` (14) | Vía estándar elegible; defecto dentro/fuera de plazo; la excepción de defecto **alcanza categorías no devolvibles** (café defectuoso sí, café "no me gustó" no — contraste clave); pedido no entregado; devolución ya en proceso; semillas; motivo ambiguo pide aclaración; producto ajeno al pedido; producto y motivo vacíos; producto ambiguo (texto que coincide con varios productos del pedido); los dos casos fuera de plazo con el reloj simulado avanzado 31 días dentro de la misma corrida (cambio de opinión a 31 días → `fuera_de_plazo`; defecto a 37 días → `excepcion_defecto_fuera_de_plazo`) |
 | `generar_etiqueta` (7) | Emisión con dictamen válido; no duplicación; dictamen improvisado (**lo revalida y rechaza**); dictamen con `elegible=false` (**no emite**); tracking inexistente; registro auditable |
@@ -178,7 +179,7 @@ Copy-Item .env.example .env
 Con el entorno ya activado y la clave en `.env`:
 
 ```powershell
-# Pruebas deterministas (36 casos, NO requieren clave ni gasto de cuota):
+# Pruebas deterministas (39 casos, NO requieren clave ni gasto de cuota):
 python src/pruebas_fase2.py
 # con evidencia versionada de la corrida en docs/evidencias/:
 python src/pruebas_fase2.py --reporte

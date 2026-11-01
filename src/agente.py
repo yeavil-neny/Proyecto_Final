@@ -69,8 +69,8 @@ PATRONES_ORDEN = (
     r"\b(quiero|deseo|necesito|voy\s+a|me\s+arrepiento)\b.*\b(devolver|devoluc|reembols)",
     r"\bdevolver\b|\bdevuelv[ei]\w*\b|\bdevolv(e|eme)[a]?\b",
     r"\b(haz|realiza|procesa|emite|genera|solicita)\b.*\b(devolu|etiqueta|guia|reembolso)",
-    r"\b(llega|me\s+llego|me\s+llego|vino)\b.*\b(defectuoso|defect|dañado|danado|roto|incorrecto|incorrect)",
-    r"\b(defectuoso|roto|dañado|danado)\b.*\b(devolver|devoluc|etiqueta)",
+    r"\b(lleg\w*|me\s+lleg\w*|vino)\b.*\b(da[ñn]ad[oa]s?|defectuos[oa]s?|rot[oa]s?|incorrect[oa]s?|defect)",
+    r"\b(da[ñn]ad[oa]s?|defectuos[oa]s?|rot[oa]s?|incorrect[oa]s?)\b.*\b(devolver|devoluc|etiqueta)",
     r"\b(etiqueta|guia)\s+de\s+(devolucion|retorno)",
 )
 
@@ -80,25 +80,34 @@ def _coincide(consulta, patrones):
     return re.search("|".join(patrones), texto) is not None
 
 
-def enrutar(consulta):
+def enrutar(consulta, orden_en_curso=False):
     """Decide la ruta para una consulta y devuelve (ruta, razon).
 
     Orden de evaluacion de las reglas (de menos a mas ambiguo):
-      1. Orden de accion sin rasgos de pregunta -> agente.
-      2. Forma de pregunta (signo o palabras interrogativas + patron) -> RAG.
-      3. 'devoluc..' sin rasgo claro se queda en RAG: la ruta accion solo se
-         toma con el consenso de una orden; una duda no deberia poder
-         escribir datos (principio de seguridad de la propuesta 3.1).
+      1. Forma de pregunta (signo o palabras interrogativas) -> RAG:
+         una pregunta no ejecuta datos, aun en mitad de una orden.
+      2. Orden de accion sin rasgos de pregunta -> agente.
+      3. Con la conversacion en mitad de una orden (orden_en_curso=True,
+         aportado por el historial del turno anterior: el agente ya pidio
+         el tracking, el producto o el motivo), la respuesta del cliente
+         sin forma de pregunta REANUDA el flujo del agente (el diagrama:
+         "Pregunta al cliente -> reanuda el flujo"). Sin historial, la
+         misma respuesta caeria en la ruta informativa y la conversacion
+         quedaria abandonada.
+      4. 'devoluc..' sin rasgo claro y sin conversacion pendiente se queda
+         en RAG: la ruta accion solo se toma con el consenso de una orden;
+         una duda no deberia poder escribir datos (principio de seguridad
+         de la propuesta 3.1).
     """
     es_orden = _coincide(consulta, PATRONES_ORDEN)
     forma_pregunta = "?" in consulta or _coincide(consulta, PATRONES_PREGUNTA)
 
-    if es_orden and not forma_pregunta:
-        return "accion", "consenso de orden de devolucion sin forma de pregunta"
     if forma_pregunta:
         return "informativa", "forma de pregunta o consulta sobre la politica"
     if es_orden:
-        return "accion", "orden de devolucion mezclada con forma interrogativa"
+        return "accion", "consenso de orden de devolucion sin forma de pregunta"
+    if orden_en_curso:
+        return "accion", "continuacion de la devolucion en curso: el agente espera un dato del cliente"
     return "informativa", "sin orden de ejecucion detectada; por defecto no toca las herramientas"
 
 
@@ -261,14 +270,14 @@ def registrar_turno(consulta, ruta, trazas, respuesta, duracion):
         pass
 
 
-def ejecutar_turno(consulta, llm, ejecutor, vectorstore, mostrar_trazas=True, historial=None):
+def ejecutar_turno(consulta, llm, ejecutor, vectorstore, mostrar_trazas=True, historial=None, orden_en_curso=False):
     """Un turno completo pasando por el router. Imprime la ruta elegida y responde.
 
     Devuelve (respuesta, mensajes): los mensajes completos del turno de
     accion permiten continuar la conversacion en la interfaz (Fase 4).
     """
     inicio = datetime.datetime.now()
-    ruta, razon = enrutar(consulta)
+    ruta, razon = enrutar(consulta, orden_en_curso=orden_en_curso)
     print(f"(router -> ruta {ruta}: {razon})")
 
     if ruta == "accion":
@@ -314,6 +323,7 @@ def main():
 
     print("Agente de EcoMarket listo. Escribe 'salir' para terminar.\n")
     historial = []  # mensajes completos de la conversacion (turnos de accion)
+    ruta_previa = None  # ultima ruta elegida: alimenta la continuacion del flujo
     while True:
         consulta = input("\nTu consulta: ").strip()
         if consulta.lower() == "salir":
@@ -322,8 +332,10 @@ def main():
             continue
         try:
             respuesta, mensajes = ejecutar_turno(
-                consulta, llm, ejecutor, vectorstore, args.razonamiento, historial=historial
+                consulta, llm, ejecutor, vectorstore, args.razonamiento, historial=historial,
+                orden_en_curso=ruta_previa == "accion",
             )
+            ruta_previa = ("accion" if mensajes else ruta_previa)  # los mensajes del ejecutor marcan la ruta de accion
             if mensajes:
                 historial = mensajes
             print("\nRespuesta:\n")

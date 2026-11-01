@@ -147,6 +147,17 @@ def probar_router(detalle):
         _registrar(f"\"{consulta}\" -> {ruta_esperada}", ruta == ruta_esperada,
                    f"[{razon}; router: {justificacion}]")
 
+    _seccion("Router con historial (continuacion de una orden en curso)")
+    CASOS_HISTORIAL = [
+        ("llegaron defectuosos", "accion", "respuesta del cliente que reanuda el flujo"),
+        ("está dañado", "accion", "respuesta del cliente que reanuda el flujo"),
+        ("¿Y cuál es el plazo de devolución?", "informativa", "una pregunta sigue informativa aun con la orden en curso"),
+    ]
+    for consulta, ruta_esperada, razon in CASOS_HISTORIAL:
+        ruta, justificacion = agente.enrutar(consulta, orden_en_curso=True)
+        _registrar(f"con orden en curso, \"{consulta}\" -> {ruta_esperada}", ruta == ruta_esperada,
+                   f"[{razon}; router: {justificacion}]")
+
 
 # ---------------------------------------------------------------------------
 # 2. Herramienta 1: buscar_pedido

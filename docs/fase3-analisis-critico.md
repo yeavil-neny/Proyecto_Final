@@ -23,7 +23,7 @@ Un asistente solo informa: sus errores son palabras. Un agente **ejecuta** — e
 
 | Riesgo | Cómo se materializa | Guardrail implementado | Riesgo residual |
 |---|---|---|---|
-| **Acción no autorizada** (automatización excesiva) | Que un deseo mal interpretado dispare una herramienta que escribe datos | El router de entrada impone que las herramientas de escritura solo sean alcanzables por la ruta de devolución; las preguntas nunca tocan herramientas (36 casos del router en `pruebas_fase2.py`) | Formulaciones no cubiertas por las reglas; mitigable con la lista de casos del doc de Fase 2 y revisión del registro de turnos |
+| **Acción no autorizada** (automatización excesiva) | Que un deseo mal interpretado dispare una herramienta que escribe datos | El router de entrada impone que las herramientas de escritura solo sean alcanzables por la ruta de devolución; las preguntas nunca tocan herramientas (casos del router en `pruebas_fase2.py`) | Formulaciones no cubiertas por las reglas; mitigable con la lista de casos del doc de Fase 2 y revisión del registro de turnos |
 | **Aterrizaje de decisión en el LLM** (alucinación de negocio) | Que el modelo decida la elegibilidad "de memoria" y contradiga la política | La decisión de negocio vive en un motor de reglas determinista dentro de la herramienta; el LLM solo dialoga con dictámenes estructurados | Ninguno directo en la decisión; el LLM puede parafrasear mal una regla a la hora de explicarla |
 | **Emisión sin garantía** (bypass del control) | Que el agente improvise un dictamen favorable y haga emitir la etiqueta | `generar_etiqueta_devolucion` rechaza dictámenes improvisados y **revalida internamente** la elegibilidad antes de emitir (defensa en profundidad, probado en los casos deterministas) | Un dictamen falso bien conformado que además supere la revalidación: requiere que la propia regla cambiara entre ambas llamadas |
 | **Duplicación / efectos irreversibles** | Doble llamada que emite dos etiquetas para el mismo pedido | Idempotencia: la segunda llamada devuelve la etiqueta ya emitida | En producción la reversibilidad debe cubrirse a nivel backend real |
@@ -79,7 +79,7 @@ Referencia de la sesión 6: *Chinoy & Liu, KPIs for gen AI (Google Cloud Blog)* 
 
 | KPI | Cómo se calcula hoy | Meta y sentido del caso |
 |---|---|---|
-| **Tasa de enrutamiento correcto** | Casos del router del doc de Fase 2 PASA / total (36/36 = 100% en la suite) | ≥ 95% en producción; una orden que aterriza en el RAG es una devolución no atendida |
+| **Tasa de enrutamiento correcto** | Casos del router del doc de Fase 2 PASA / total (39/39 = 100% en la suite) | ≥ 95% en producción; una orden que aterriza en el RAG es una devolución no atendida |
 | **Precisión del dictamen** | Comparado con dictamen humano (set calibrado): acuerdos / total | ≥ 95%; es la métrica de confianza sobre la política (el motor de reglas hace determinista esta métrica) |
 | **Ratio de automatización de devoluciones** | Devoluciones completadas por el agente / total de solicitudes de devolución | Meta del caso: los ~20% de tickets que hoy llegan a asesor se atienden sin intervención de humanos salvo excepciones |
 | **Resolución en primera respuesta** | Turnos que terminan en dictamen o etiqueta sin pregunta previa / total | Monitorea el costo de "no asumir": subir la aclaración (preguntar más) es correcto éticamente y baja este KPI; la meta es equilibrarlas, no maximizarlas |

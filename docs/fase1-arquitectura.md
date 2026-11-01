@@ -6,7 +6,7 @@ La propuesta preliminar ([`propuesta-preliminar.md`](propuesta-preliminar.md)) p
 
 ---
 
-## 1. Arquitectura: router + agente con herramientas (el RAG permanece como ruta alternan informativa)
+## 1. Arquitectura: router + agente con herramientas (el RAG permanece como ruta alterna informativa)
 
 La solución sigue la arquitectura router: la consulta del cliente entra a una capa de decisión con **reglas de entrada deterministas** (código, no un clasificador con IA) que la dirige a uno de dos subsistemas, y el RAG del Taller #2 permanece como la ruta alterna informativa:
 

@@ -3,6 +3,8 @@
 **Proyecto Final — IA Generativa.** Caso de estudio: EcoMarket (e-commerce de productos sostenibles).
 **Equipo:** Cristian Humberto Yepes Marin y Yenny Alexandra Villarreal Suaza.
 
+> **Nota de alcance:** este documento es la entrega previa que pidió la herramienta académica Intu en su sección "Antes de la sesión" de la clase 5 (llegar a esa sesión con la propuesta discutida con el profesor). **No hace parte de los entregables del enunciado del Proyecto Final** (link del repo con las 4 fases + video): se deja en el repo como antecedente de las decisiones de diseño, que quedaron refinadas en `docs/fase1-arquitectura.md` y los demás documentos de fase.
+
 ---
 
 ## 1. Objetivo del sistema

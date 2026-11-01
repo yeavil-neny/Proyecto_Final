@@ -19,7 +19,7 @@ Proyecto Final del curso: extensión del asistente RAG del [Taller Práctico #2]
 
 | Fase | Documento | Estado |
 |---|---|---|
-| Propuesta preliminar | [`docs/propuesta-preliminar.md`](docs/propuesta-preliminar.md) | Lista |
+| Propuesta preliminar | [`docs/propuesta-preliminar.md`](docs/propuesta-preliminar.md) | Lista *(nota: es la entrega previa pedida en la plataforma Intu antes de la sesión 5; **no hace parte de los entregables del enunciado del Proyecto Final** — se deja en el repo como antecedente del diseño)* |
 | Fase 1 (arquitectura y herramienta) | [`docs/fase1-arquitectura.md`](docs/fase1-arquitectura.md) | Lista (con diagrama de flujo) |
 | Fase 2 (implementación) | [`docs/fase2-implementacion.md`](docs/fase2-implementacion.md) | Implementada y probada (agente + 3 herramientas + router; 36 casos deterministas + 7 en vivo con LLM) |
 | Fase 3 (análisis crítico) | [`docs/fase3-analisis-critico.md`](docs/fase3-analisis-critico.md) | Lista (riesgos y guardrails, monitoreo con registro JSONL, KPIs, mejoras priorizadas) |

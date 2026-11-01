@@ -147,14 +147,43 @@ Los modelos Gemini de la serie 3 exigen reenviar, en cada vuelta del bucle de he
 
 **Diagrama de flujo del proceso de devolución** (router, decisiones del agente y llamadas a las herramientas): [versión interactiva en GitHub Pages](https://yeavil-neny.github.io/Proyecto_Final/docs/flujo-devolucion-agente.html) — diagrama interactivo con tema claro/oscuro, zoom, búsqueda y rastreo de relaciones; el botón *Export* exporta PNG/SVG para el documento y el video (generado con Archify, validación completa: 9/9 checks, 0 errores, 0 advertencias). *Si el enlace no estuviera disponible, el mismo diagrama está en [el OneDrive de la universidad](https://icesiedu-my.sharepoint.com/:u:/g/personal/1112300387_u_icesi_edu_co/IQCepidtD2U9Sptww-2EEqJfAZvWxYq-pm8MwYSGCQ9ocM8?e=cLL1p8).*
 
-```bash
-# 1. Entorno: python 3.12+ con requirements.txt de este repo
-# 2. Clave: copiar .env.example a .env y poner GEMINI_API_KEY
+### 5.1 Preparar el entorno (paso a paso, solo la primera vez)
 
-# Pruebas deterministas (NO requieren clave):
+El proyecto se ejecuta con **Python 3.12 o superior** (probado con 3.13 en Windows). Un **entorno virtual** es una carpeta (`.venv/`) donde Python instala las dependencias del proyecto aisladas del resto del sistema: evita conflictos con otras instalaciones y es la práctica estándar con `requirements.txt`. Pasos (en PowerShell, dentro de la carpeta del repo):
+
+```powershell
+# 1. Verificar el Python instalado (necesita 3.12 o mayor; si falta, descargar de python.org)
+python --version
+
+# 2. Crear el entorno virtual en la carpeta .venv (solo la primera vez)
+python -m venv .venv
+
+# 3. Activarlo (cada vez que se abra una terminal nueva)
+#    Solo la primera vez, PowerShell permite scripts:
+#      Set-ExecutionPolicy -Scope CurrentUser RemoteSigned
+.\.venv\Scripts\Activate.ps1
+
+# 4. Instalar las dependencias del repo (5-10 minutos la primera vez)
+pip install -r requirements.txt
+
+# 5. Clave API: copiar .env.example a .env (en la raiz del repo) y poner la
+#    clave propia de https://aistudio.google.com/apikey en GEMINI_API_KEY.
+#    El archivo .env esta excluido del repositorio por .gitignore: nunca se
+#    publica.
+Copy-Item .env.example .env
+```
+
+### 5.2 Correr el proyecto (cada vez)
+
+Con el entorno ya activado y la clave en `.env`:
+
+```powershell
+# Pruebas deterministas (36 casos, NO requieren clave ni gasto de cuota):
 python src/pruebas_fase2.py
+# con evidencia versionada de la corrida en docs/evidencias/:
+python src/pruebas_fase2.py --reporte
 
-# Ruta de acción (agente):
+# Ruta de acción (agente, gasta cuota de la API):
 python src/agente.py --consulta "quiero devolver los envases de vidrio del ECO-10005, ya no los necesito" --razonamiento
 # caso de rechazo explicado:
 python src/agente.py --consulta "quiero devolver el cafe del ECO-10006, no me gusto"
@@ -164,6 +193,8 @@ python src/agente.py --consulta "Cuando llega mi pedido ECO-10003?"
 # Bucle interactivo (ambas rutas):
 python src/agente.py --chat
 ```
+
+Notas de ejecución: la primera llamada consulta demora ~30 segundos adicionales porque se construye la base vectorial (calculo de embeddings del corpus); las siguientes reutilizan la base persistida. La interfaz web de la Fase 4 se lanza aparte: `streamlit run src/app_devoluciones.py` (instrucciones en [`fase4-despliegue.md`](fase4-despliegue.md)).
 
 ---
 

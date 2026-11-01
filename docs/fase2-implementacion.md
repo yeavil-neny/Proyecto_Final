@@ -153,7 +153,7 @@ Los modelos Gemini de la serie 3 exigen reenviar, en cada vuelta del bucle de he
 El proyecto se ejecuta con **Python 3.11 o superior** (verificado en corrida real con 3.11.9 y 3.13). Un **entorno virtual** es una carpeta (`.venv/`) donde Python instala las dependencias del proyecto aisladas del resto del sistema: evita conflictos con otras instalaciones y es la práctica estándar con `requirements.txt`. Pasos (en PowerShell, dentro de la carpeta del repo):
 
 ```powershell
-# 1. Verificar el Python instalado (necesita 3.12 o mayor; si falta, descargar de python.org)
+# 1. Verificar el Python instalado (necesita 3.11 o mayor; si falta, descargar de python.org)
 python --version
 
 # 2. Crear el entorno virtual en la carpeta .venv (solo la primera vez)

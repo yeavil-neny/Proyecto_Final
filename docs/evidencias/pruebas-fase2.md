@@ -3,9 +3,9 @@
 Generada automaticamente por `src/pruebas_fase2.py` con el comando
 `python src/pruebas_fase2.py --reporte`.
 
-- **Fecha de la corrida:** 2026-11-01 00:24:49
+- **Fecha de la corrida:** 2026-11-01 01:08:37
 - **Reloj simulado usado por las herramientas:** 2026-09-17 (fecha_base del corpus de data/pedidos.json)
-- **Entorno:** Python 3.13.5 en Windows 11
+- **Entorno:** Python 3.11.9 en Windows 10
 - **Resultado: 36/36 casos PASAN.**
 
 ## Router

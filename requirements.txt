@@ -1,6 +1,6 @@
 # Dependencias del agente de devoluciones de EcoMarket (Proyecto Final)
 # Partimos de las del sistema RAG del Taller Practico #2 (misma version base).
-# Probadas en Python 3.13 local con el entorno virtual del Taller 2.
+# Probadas en Python 3.11.9 y 3.13 locales con entornos virtuales.
 #
 # Framework: RAG (ruta informativa) + agente con herramientas (ruta de accion)
 langchain>=0.3

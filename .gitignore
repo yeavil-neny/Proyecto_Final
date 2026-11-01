@@ -11,6 +11,7 @@ Documentacion/
 env/
 venv/
 .venv/
+.venv11/
 
 # Base de datos vectorial persistida (se regenera al ejecutar)
 chroma_ecomarket/

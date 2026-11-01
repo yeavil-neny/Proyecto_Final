@@ -7,7 +7,15 @@
 
 ## 1. Qué se implementó
 
-La Fase 2 toma el sistema RAG del Taller #2 (Ruta informativa) y lo extiende con el agente de devoluciones (Ruta de acción), unidos por el router determinista de la Fase 1. La estructura del repositorio:
+La Fase 2 toma el sistema RAG del Taller #2 (Ruta informativa) y lo extiende con el agente de devoluciones (Ruta de acción), unidos por el router determinista de la Fase 1.
+
+| Literal del enunciado (Fase 2) | Dónde se cumple |
+|---|---|
+| **Extensión del Código Base**: partir del código del Taller 2, definir las herramientas como funciones e inicializar el agente | §1.1 (el RAG se reutiliza sin cambios), §2 (las 3 herramientas como funciones con contrato JSON) y §3 (inicialización con `create_agent`) |
+| **Manejo de Respuestas**: el agente formatea la respuesta de vuelta al usuario de manera clara y amigable, manejando el éxito y los errores | §2 (los contratos: errores explícitos redactados como instrucciones al agente), **§2.4** (del JSON a la respuesta al usuario) y §3 (protocolo del tono en el prompt); comprobado con los 7 casos en vivo de §4.2 |
+| **Evaluación del Comportamiento**: probar con diferentes prompts que el agente discerna cuándo usar herramientas y cuándo responder directo | §4 (36 casos deterministas sin API + 7 casos en vivo con el LLM real) |
+
+La estructura del repositorio:
 
 ```
 src/
@@ -64,6 +72,20 @@ Aplica la política real (`data/politicas_devolucion.md`) con un **motor de regl
 | `producto_requerido` / `motivo_requerido` | Faltó el dato; el mensaje enumera las opciones reales del pedido |
 | `producto_no_encontrado_en_pedido` | El producto mencionado no pertenece al pedido |
 | `producto_ambiguo` | Coincide con varios productos; se pide elegir |
+
+### 2.4 Manejo de respuestas: del JSON de las herramientas a la respuesta al usuario
+
+El enunciado de la Fase 2 pide, además de ejecutar la acción, que "el agente formatee la respuesta de vuelta al usuario de manera clara y amigable, manejando tanto el éxito como los posibles errores". La cadena de formato queda así:
+
+1. **Las herramientas devuelven JSON, no prosa** (§2): sus campos de fallo no son trazas técnicas sino **instrucciones redactadas al agente** — qué pedirle al cliente, qué no repetir (p. ej. `formato_invalido` dice el formato correcto y ordena pedir el número en lugar de asumir).
+2. **El prompt del sistema fija el tono y el formato del mensaje al cliente** (§3): explicar cada rechazo con la regla exacta, preguntar en lugar de asumir, no prometer reembolsos.
+3. **Cuatro formas de respuesta al usuario**, comprobadas en los 7 casos en vivo de §4.2:
+   - **Éxito** (caso 1): confirmación amigable con número de etiqueta, guía y transportadora, más las condiciones (sin usar, empaque original; el reembolso se aprueba al recibir y revisar el producto).
+   - **Rechazo explicado** (caso 2): la regla exacta de la política y qué sí aplica (la excepción de defecto), en lugar de un "no" seco.
+   - **Petición de datos** (casos 3 y 6): pide el tracking, el producto o el motivo cuando faltan, y aclara un motivo ambiguo — pregunta, no asume.
+   - **Sin salidas falsas** (casos 4, 5 y 7): devolución ya en proceso, pedido inexistente y consulta que el RAG no puede responder **se comunican como son** (con escalamiento honesto), nunca con una improvisación del modelo.
+
+El JSON del registro (`data/registro_turnos.jsonl`, Fase 3) guarda tanto el JSON de las herramientas como la respuesta final, así que el manejo de respuestas es auditable turno a turno.
 
 ### 2.3 `generar_etiqueta_devolucion(tracking, dictamen)`
 

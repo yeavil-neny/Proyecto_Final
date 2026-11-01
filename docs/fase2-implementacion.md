@@ -112,11 +112,13 @@ El JSON del registro (`data/registro_turnos.jsonl`, Fase 3) guarda tanto el JSON
 
 **36 casos, todos PASAN** (resultado de la corrida completa):
 
+Además, con `python src/pruebas_fase2.py --reporte` la corrida escribe su propia **evidencia caso por caso** en `docs/evidencias/pruebas-fase2.md` y `docs/evidencias/pruebas-fase2.json` (fecha de la corrida, reloj simulado, entorno y la salida JSON compacta de cada caso) — evidencia versionada en el repo y reproducible con el mismo comando.
+
 | Grupo | Casos cubiertos |
 |---|---|
 | Router (11) | Órdenes con y sin tracking, imperativos, defecto + petición de etiqueta → **acción**; preguntas de estado, proceso, política, plazo, condicionales, saludo → **informativa** |
 | `buscar_pedido` (5) | Éxito, rescate del patrón dentro de texto, formato inválido, inexistente, argumento vacío |
-| `verificar_elegibilidad` (11) | Vía estándar elegible; defecto dentro/fuera de plazo; la excepción de defecto **alcanza categorías no devolvibles** (café defectuoso sí, café "no me gustó" no — contraste clave); pedido no entregado; devolución ya en proceso; semillas; motivo ambiguo pide aclaración; producto ajeno al pedido; producto y motivo vacíos |
+| `verificar_elegibilidad` (14) | Vía estándar elegible; defecto dentro/fuera de plazo; la excepción de defecto **alcanza categorías no devolvibles** (café defectuoso sí, café "no me gustó" no — contraste clave); pedido no entregado; devolución ya en proceso; semillas; motivo ambiguo pide aclaración; producto ajeno al pedido; producto y motivo vacíos; producto ambiguo (texto que coincide con varios productos del pedido); los dos casos fuera de plazo con el reloj simulado avanzado 31 días dentro de la misma corrida (cambio de opinión a 31 días → `fuera_de_plazo`; defecto a 37 días → `excepcion_defecto_fuera_de_plazo`) |
 | `generar_etiqueta` (7) | Emisión con dictamen válido; no duplicación; dictamen improvisado (**lo revalida y rechaza**); dictamen con `elegible=false` (**no emite**); tracking inexistente; registro auditable |
 
 ### 4.2 El "discernimiento" pedido por el enunciado

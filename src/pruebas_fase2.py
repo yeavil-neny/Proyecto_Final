@@ -15,24 +15,42 @@ docs/fase2-implementacion.md (tabla de casos) y el video de la demo.
 Uso:
   python src/pruebas_fase2.py            # ejecuta todos los casos
   python src/pruebas_fase2.py --detalle  # imprime la salida JSON de cada caso
+  python src/pruebas_fase2.py --reporte  # ademas escribe la evidencia de la corrida
+                                         # en docs/evidencias/ (Markdown + JSON)
 
 Sale con codigo 0 si todos los casos pasan; nonzero si alguno falla.
 """
 
 import argparse
 import json
+import os
+import platform
 import sys
+from datetime import date, datetime, timedelta
 
 import agente
 import herramientas
 
 
 FALLOS = []
+RESULTADOS = []  # evidencia de la corrida: una entrada por caso
+SECCION = ""
+
+
+def _seccion(titulo):
+    global SECCION
+    SECCION = titulo
 
 
 def _registrar(nombre, condicion, detalle=""):
     estado = "PASA" if condicion else "Falló"
     print(f"  [{estado}] {nombre}" + (f"  ({detalle})" if detalle else ""))
+    RESULTADOS.append({
+        "seccion": SECCION,
+        "caso": nombre,
+        "resultado": estado,
+        "detalle": detalle,
+    })
     if not condicion:
         FALLOS.append(nombre)
 
@@ -40,6 +58,65 @@ def _registrar(nombre, condicion, detalle=""):
 def _resumen(resultado):
     """Linea compacta de un JSON de herramienta para mostrarlo en cada caso."""
     return json.dumps(resultado, ensure_ascii=False)[:180]
+
+
+# ---------------------------------------------------------------------------
+# Evidencia de la corrida: Markdown + JSON en docs/evidencias/
+# ---------------------------------------------------------------------------
+
+def _reloj_actual():
+    if os.environ.get("RELOJ_SIMULADO"):
+        return f"{os.environ['RELOJ_SIMULADO']} (variable RELOJ_SIMULADO)"
+    fecha_base = json.load(open(herramientas.RUTA_PEDIDOS, encoding="utf-8"))["fecha_base"]
+    return f"{fecha_base} (fecha_base del corpus de data/pedidos.json)"
+
+
+def escribir_reporte(raiz):
+    """Escribe la evidencia de la corrida en docs/evidencias/ (md + json)."""
+    now = datetime.now()
+    pasan = sum(1 for r in RESULTADOS if r["resultado"] == "PASA")
+    total = len(RESULTADOS)
+    datos = {
+        "titulo": "Corrida de las pruebas deterministas de la Fase 2",
+        "fecha_corrida": now.strftime("%Y-%m-%d %H:%M:%S"),
+        "reloj_simulado": _reloj_actual(),
+        "entorno": f"Python {sys.version.split()[0]} en {platform.system()} {platform.release()}",
+        "comando": "python src/pruebas_fase2.py --reporte",
+        "resumen": {"total": total, "pasan": pasan, "fallos": total - pasan},
+        "casos": RESULTADOS,
+    }
+
+    lineas = [
+        "# Evidencia: corrida de las pruebas deterministas (Fase 2)",
+        "",
+        f"Generada automaticamente por `src/pruebas_fase2.py` con el comando",
+        f"`{datos['comando']}`.",
+        "",
+        f"- **Fecha de la corrida:** {datos['fecha_corrida']}",
+        f"- **Reloj simulado usado por las herramientas:** {datos['reloj_simulado']}",
+        f"- **Entorno:** {datos['entorno']}",
+        f"- **Resultado: {pasan}/{total} casos PASAN.**",
+        "",
+    ]
+    seccion_previa = ""
+    for r in RESULTADOS:
+        if r["seccion"] != seccion_previa:
+            seccion_previa = r["seccion"]
+            lineas += [f"## {seccion_previa}", "", "| Resultado | Caso | Detalle |", "|---|---|---|"]
+        detalle = r["detalle"].replace("|", "\\|")
+        lineas.append(f"| {r['resultado']} | {r['caso']} | {detalle} |")
+    lineas += ["", "*La corrida restablecio el registro de etiquetas de prueba al "
+               "estado vacio (partida limpia para la siguiente ejecucion).*", ""]
+
+    carpeta = os.path.join(raiz, "docs", "evidencias")
+    os.makedirs(carpeta, exist_ok=True)
+    ruta_md = os.path.join(carpeta, "pruebas-fase2.md")
+    ruta_json = os.path.join(carpeta, "pruebas-fase2.json")
+    with open(ruta_md, "w", encoding="utf-8") as archivo:
+        archivo.write("\n".join(lineas))
+    with open(ruta_json, "w", encoding="utf-8") as archivo:
+        json.dump(datos, archivo, ensure_ascii=False, indent=2)
+    return ruta_md, ruta_json
 
 
 # ---------------------------------------------------------------------------
@@ -64,6 +141,7 @@ CASOS_ROUTER = [
 
 def probar_router(detalle):
     print("\n1. Router (reglas de entrada deterministas)")
+    _seccion("Router")
     for consulta, ruta_esperada, razon in CASOS_ROUTER:
         ruta, justificacion = agente.enrutar(consulta)
         _registrar(f"\"{consulta}\" -> {ruta_esperada}", ruta == ruta_esperada,
@@ -76,6 +154,7 @@ def probar_router(detalle):
 
 def probar_buscar_pedido(detalle):
     print("\n2. buscar_pedido (contrato y errores)")
+    _seccion("buscar_pedido")
 
     r = herramientas.buscar_pedido_core("ECO-10005")
     _registrar("pedido existente devuelve exito con estado ENTREGADO",
@@ -106,6 +185,7 @@ def probar_buscar_pedido(detalle):
 
 def probar_elegibilidad(detalle):
     print("\n3. verificar_elegibilidad_devolucion (motor de reglas de la politica)")
+    _seccion("verificar_elegibilidad_devolucion")
 
     # Elegible por la via estandar: producto Hogar (devolvible), entregado
     # hoy del reloj simulado, 30 dias completos por delante.
@@ -171,6 +251,34 @@ def probar_elegibilidad(detalle):
     _registrar("motivo vacio -> motivo_requerido",
                not r["exito"] and r["error"] == "motivo_requerido", _resumen(r))
 
+    # Producto ambiguo: el texto coincide con varios productos del mismo
+    # pedido (shampoo y acondicionador comparten la palabra "solido").
+    r = herramientas.verificar_elegibilidad_core("ECO-10004", "solido", "cambio de opinion")
+    _registrar("texto coincidente con varios productos del pedido -> producto_ambiguo",
+               not r["exito"] and r["error"] == "producto_ambiguo", _resumen(r))
+
+    # Casos fuera de plazo: se avanza el reloj simulado 31 dias (del 2026-09-17
+    # al 2026-10-18) dentro de esta misma corrida y se restablece al salir.
+    reloj_previo = os.environ.get("RELOJ_SIMULADO")
+    os.environ["RELOJ_SIMULADO"] = str(date(2026, 9, 17) + timedelta(days=31))
+    try:
+        r = herramientas.verificar_elegibilidad_core("ECO-10005", "envases", "ya no lo necesito")
+        d = r.get("dictamen", {})
+        _registrar("cambio de opinion a 31 dias de la entrega -> NO elegible (fuera_de_plazo)",
+                   r["exito"] and not d.get("elegible") and d.get("regla_aplicable") == "fuera_de_plazo",
+                   _resumen(r))
+
+        r = herramientas.verificar_elegibilidad_core("ECO-10001", "cepillos", "llegaron defectuosos")
+        d = r.get("dictamen", {})
+        _registrar("defecto a 37 dias de la entrega -> NO elegible (excepcion_defecto_fuera_de_plazo)",
+                   r["exito"] and not d.get("elegible") and d.get("regla_aplicable") == "excepcion_defecto_fuera_de_plazo",
+                   _resumen(r))
+    finally:
+        if reloj_previo is None:
+            os.environ.pop("RELOJ_SIMULADO", None)
+        else:
+            os.environ["RELOJ_SIMULADO"] = reloj_previo
+
 
 # ---------------------------------------------------------------------------
 # 4. Herramienta 3: generar_etiqueta_devolucion (emision + auditoria)
@@ -178,6 +286,7 @@ def probar_elegibilidad(detalle):
 
 def probar_etiqueta(detalle):
     print("\n4. generar_etiqueta_devolucion (emision vigilada y registro auditable)")
+    _seccion("generar_etiqueta_devolucion")
 
     dictamen_bueno = json.dumps(herramientas.verificar_elegibilidad_core(
         "ECO-10005", "envases", "ya no lo necesito")["dictamen"], ensure_ascii=False)
@@ -220,6 +329,8 @@ def probar_etiqueta(detalle):
 def main():
     parser = argparse.ArgumentParser(description="Casos de prueba deterministas de la Fase 2")
     parser.add_argument("--detalle", action="store_true", help="imprime la salida JSON completa de cada caso")
+    parser.add_argument("--reporte", action="store_true",
+                        help="escribe la evidencia de la corrida en docs/evidencias/ (Markdown + JSON)")
     args = parser.parse_args()
 
     total = 0
@@ -230,8 +341,16 @@ def main():
 
     if FALLOS:
         print(f"\nResultado: {len(FALLOS)} caso(s) falló: {', '.join(FALLOS)}")
+        if args.reporte:
+            escribir_reporte(os.path.join(os.path.dirname(__file__), ".."))
+            print("Evidencia de la corrida fallida escrita en docs/evidencias/.")
         sys.exit(1)
     print("\nResultados: todos los casos pasan.")
+
+    if args.reporte:
+        ruta_md, ruta_json = escribir_reporte(os.path.join(os.path.dirname(__file__), ".."))
+        print(f"(Evidencia de la corrida escrita en {os.path.relpath(ruta_md)} "
+              f"y {os.path.relpath(ruta_json)}.)")
 
     # La corrida dejo emisiones de prueba en data/etiquetas_emitidas.json: se
     # restablece el registro vacio (estado inicial del repo) para que las

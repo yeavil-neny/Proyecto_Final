@@ -73,6 +73,16 @@ Aplica la política real (`data/politicas_devolucion.md`) con un **motor de regl
 | `producto_no_encontrado_en_pedido` | El producto mencionado no pertenece al pedido |
 | `producto_ambiguo` | Coincide con varios productos; se pide elegir |
 
+### 2.3 `generar_etiqueta_devolucion(tracking, dictamen)`
+
+| Contrato | Detalle |
+|---|---|
+| Entrada | `tracking` + `dictamen` (el JSON completo que devolvió la herramienta 2) |
+| Validaciones | 1) el dictamen debe declarar `elegible: true` y corresponder al mismo tracking; 2) **re-verificación interna** de la elegibilidad antes de emitir (defensa en profundidad: no se confía en la síntesis del agente); 3) idempotencia: no emite dos veces el mismo pedido |
+| Éxito | `{exito, etiqueta: {numero_etiqueta EL-XXX, numero_guia, transportadora, direccion_recepcion, enlace_pdf_simulado}}` |
+| Fallos | `dictamen_invalido`, `no_elegible_o_dictamen_incoherente`, `elegibilidad_no_reproducible` (o el error del pedido) |
+| Auditoría | Cada emisión se persiste en `data/etiquetas_emitidas.json` (fecha simulada, producto, regla aplicable, etiqueta) — insumo de la observabilidad de la Fase 3 |
+
 ### 2.4 Manejo de respuestas: del JSON de las herramientas a la respuesta al usuario
 
 El enunciado de la Fase 2 pide, además de ejecutar la acción, que "el agente formatee la respuesta de vuelta al usuario de manera clara y amigable, manejando tanto el éxito como los posibles errores". La cadena de formato queda así:
@@ -86,16 +96,6 @@ El enunciado de la Fase 2 pide, además de ejecutar la acción, que "el agente f
    - **Sin salidas falsas** (casos 4, 5 y 7): devolución ya en proceso, pedido inexistente y consulta que el RAG no puede responder **se comunican como son** (con escalamiento honesto), nunca con una improvisación del modelo.
 
 El JSON del registro (`data/registro_turnos.jsonl`, Fase 3) guarda tanto el JSON de las herramientas como la respuesta final, así que el manejo de respuestas es auditable turno a turno.
-
-### 2.3 `generar_etiqueta_devolucion(tracking, dictamen)`
-
-| Contrato | Detalle |
-|---|---|
-| Entrada | `tracking` + `dictamen` (el JSON completo que devolvió la herramienta 2) |
-| Validaciones | 1) el dictamen debe declarar `elegible: true` y corresponder al mismo tracking; 2) **re-verificación interna** de la elegibilidad antes de emitir (defensa en profundidad: no se confía en la síntesis del agente); 3) idempotencia: no emite dos veces el mismo pedido |
-| Éxito | `{exito, etiqueta: {numero_etiqueta EL-XXX, numero_guia, transportadora, direccion_recepcion, enlace_pdf_simulado}}` |
-| Fallos | `dictamen_invalido`, `no_elegible_o_dictamen_incoherente`, `elegibilidad_no_reproducible` (o el error del pedido) |
-| Auditoría | Cada emisión se persiste en `data/etiquetas_emitidas.json` (fecha simulada, producto, regla aplicable, etiqueta) — insumo de la observabilidad de la Fase 3 |
 
 ---
 

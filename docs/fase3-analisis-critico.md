@@ -65,7 +65,7 @@ Panel con cuatro tarjetas por día: turnos y su reparto por ruta; dictamenes por
 
 ## 3. KPIs para medir el éxito del agente
 
-Referencia de la sesión 6: *Chinoy & Liu, KPIs for gen AI (Google Cloud Blog)* — los proyectos de IA generativa se gerencian con indicadores de calidad, productividad y negocio, no solo con "funciona".
+Referencia de la clase/sesión 6: *Chinoy & Liu, KPIs for gen AI (Google Cloud Blog)* — los proyectos de IA generativa se gerencian con indicadores de calidad, productividad y negocio, no solo con "funciona".
 
 | KPI | Cómo se calcula hoy | Meta y sentido del caso |
 |---|---|---|
@@ -100,4 +100,4 @@ Los límites de esta declaración: el sistema es una simulación educativa sobre
 
 ---
 
-*Referencias de la sesión 6 aplicadas: Chinoy & Liu (KPIs for gen AI, Google Cloud Blog), Lgayhardt (observabilidad con Azure AI Foundry, Microsoft Learn), CloudFountain (optimización de modelos), Chandrasekaran et al. (10 best practices, Pleio) — integradas con las lecturas de las unidades anteriores y la postura de privacidad del Taller #1.*
+*Referencias de la clase/sesión 6 aplicadas: Chinoy & Liu (KPIs for gen AI, Google Cloud Blog), Lgayhardt (observabilidad con Azure AI Foundry, Microsoft Learn), CloudFountain (optimización de modelos), Chandrasekaran et al. (10 best practices, Pleio) — integradas con las lecturas de las unidades anteriores y la postura de privacidad del Taller #1.*

@@ -84,7 +84,7 @@ Referencia de la clase/sesión 6: *Chinoy & Liu, KPIs for gen AI (Google Cloud B
 5. **Puerta de aprobación por umbral de valor (P5).** En un backend real: por encima de un monto o en categorías sensibles, la emisión pasa a human-in-the-loop (aprobación de un asesor antes de etiqueta): automatización con freno proporcional.
 6. **Extensiones con la misma arquitectura (herramientas nuevas, cero rediseño) (P6).**  Gracias al desacoplamiento de la arquitectura router + contratos, es posible escalar las capacidades del sistema sin modificar el esqueleto base (dictamen, revalidación y registro). Se proponen las siguientes extensiones modulares:
       - *Operaciones y XAI:*
-          - `generar_orden_reemplazo` y `actualizar_crm_cliente`: Automatizan la creación de órdenes de reemplazo (vinculando dictamen y catálogo) y la sincronización de datos en el CRM. **(*Sugeridas naturalmente en el enunciado*).**
+          - `generar_orden_reemplazo` y `actualizar_crm_cliente`: Automatizan la creación de órdenes de reemplazo (vinculando dictamen y catálogo) y la sincronización de datos en el CRM. **(*Sugeridas en el enunciado*).**
           - `explicabilidad_decisiones_xai`: Añade una justificación estructurada basada en la normativa consultada, garantizando transparencia y facilitando la auditoría humana.
       - *Analítica y Alertas Proactivas:*
           - `generar_ranking_defectos` y `analisis_comportamiento_clientes`: Generan alertas y métricas sobre productos con mayores fallas y segmentan el comportamiento de clientes recurrentes.   

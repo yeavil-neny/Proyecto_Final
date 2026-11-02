@@ -199,4 +199,4 @@ Notas de ejecución: la primera llamada consulta demora ~30 segundos adicionales
 
 ---
 
-*Los límites de esta fase se declaran y analizan en [`fase3-analisis-critico.md`](fase3-analisis-critico.md) (apartado "Límites declarados en la Fase 2"), junto con el análisis crítico que los consume.*
+*El análisis crítico de esta fase — sus riesgos y guardrails, monitoreo y propuestas de mejora — está en [`fase3-analisis-critico.md`](fase3-analisis-critico.md).*

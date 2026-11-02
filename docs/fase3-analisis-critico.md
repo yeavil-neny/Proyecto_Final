@@ -5,16 +5,6 @@ Código evaluado: la Fase 2 implementada ([`fase2-implementacion.md`](fase2-impl
 
 ---
 
-## Límites declarados en la Fase 2 (que este análisis consume)
-
-- Todo es simulado sobre los JSON/CSV del corpus; la "etiqueta" es un registro, no una guía real.
-- Clasificar el motivo por palabras clave es frágil ante formulaciones fuera de las huellas — por eso el dictamen pide aclaración en lugar de asumir; con LLM en ejecución se evalúa si el agente lo pide bien.
-- El router por reglas cubre las formulaciones de los casos probados; las reglas son auditables pero incompletas por definición (se discute con la métrica de enrutamiento correcto de la sección 3 de KPIs).
-- El discernimiento del agente LLM en vivo se comprobó en **varias corridas manuales**: los 7 casos de la Fase 2 (2026-10-23) y las corridas y la demo del 2026-11-01 (con otra clave API, grabadas en el video del proyecto). El límite real es que esas ejecuciones son manuales: faltan una ejecución repetible y automática con verificación de claves de conducta (no del texto literal) — propuesta 7 de esta fase.
-- El reloj simulado fija el "hoy" en la fecha del corpus; con la fecha real del sistema los plazos del corpus quedarían vencidos.
-
----
-
 ## 1. Riesgos éticos y de seguridad de un agente que actúa
 
 Un asistente solo informa: sus errores son palabras. Un agente **ejecuta** — emite etiquetas, compromete a la empresa en decisiones de negocio y toca datos de clientes — y esa es la frontera (clase 4 del curso, asistentes vs. agentes: el asistente responde, el agente actúa) donde aparecen los riesgos siguientes, cada uno con su contramedida en la solución y su riesgo residual.
@@ -40,7 +30,7 @@ Un asistente solo informa: sus errores son palabras. Un agente **ejecuta** — e
 
 ### 1.3 Postura general
 
-La decisión de diseño que sostiene la evaluación de esta fase es que **la acción automática es la parte estrecha y vigilada del sistema**: reglas deterministas para el negocio, contratos estructurados audibles, doble verificación antes de escribir, y el LLM confinado al diálogo. Es la aplicación directa de "evaluación y seguridad en sistemas agénticos (guardrails)" de la sesión 6: los guardrails no son un anexo, son la arquitectura.
+La decisión de diseño que sostiene la evaluación de esta fase es que **la acción automática es la parte estrecha y vigilada del sistema**: reglas deterministas para el negocio, contratos estructurados auditables, doble verificación antes de escribir, y el LLM confinado al diálogo. Es la aplicación directa de "evaluación y seguridad en sistemas agénticos (guardrails)" de la sesión 6: los guardrails no son un anexo, son la arquitectura.
 
 ---
 

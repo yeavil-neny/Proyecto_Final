@@ -57,10 +57,6 @@ Limitaciones honestas de la observabilidad actual: es local y por archivo (sin p
 2. **Calidad del comportamiento (nivel 2):** ejecución periódica de la suite de casos (`pruebas_fase2.py`) como prueba de humo automática en cada cambio de código o de modelo: es el equivalente de una prueba de humo con despliegue progresivo ("canary") para un agente. Métricas por corrida: tasa de casos PASA, tasa de dictamen correcto.
 3. **Operación real (nivel 3):** sobre `registro_turnos.jsonl`: ruta elegida y su razonamiento, casos con aclaración (el agente preguntó), casos escalados, y balance de dictamenes (aprobados/rechazados por regla).
 
-### 2.3 Panel mínimo propuesto (diseño, pendiente de Fase 4)
-
-Panel con cuatro tarjetas por día: turnos y su reparto por ruta; dictamenes por regla aplicable; etiquetas emitidas; y casos escalados con su motivo. El formato JSONL ya es insumo directo (un script de conteo o una hoja de cálculo conectada al archivo).
-
 ---
 
 ## 3. KPIs para medir el éxito del agente

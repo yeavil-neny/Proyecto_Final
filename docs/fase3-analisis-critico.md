@@ -36,7 +36,7 @@ La decisión de diseño que sostiene la evaluación de esta fase es que **la acc
 
 ## 2. Monitoreo y observabilidad
 
-Referencia de la sesión 6: *Lgayhardt, Observabilidad en IA generativa con Azure AI Foundry* — monitorear y asegurar transparencia en sistemas de IA generativa para confiabilidad y control de su operación.
+Referencia de la clase/sesión 6: *Lgayhardt, Observabilidad en IA generativa con Azure AI Foundry* — monitorear y asegurar transparencia en sistemas de IA generativa para confiabilidad y control de su operación.
 
 ### 2.1 Lo que ya es observable en la implementación
 
@@ -49,7 +49,7 @@ Referencia de la sesión 6: *Lgayhardt, Observabilidad en IA generativa con Azur
 | Fuentes del RAG | Impresión de los fragmentos recuperados con su distancia coseno | Diagnóstico de recuperación (el hallazgo del caso del pedido ECO-10003 salió de esta señal) |
 | Duración por turno | Campo `duracion_segundos` del JSONL | Línea base de latencia para comparar versiones |
 
-Limitaciones honestas de la observabilidad actual: es local y por archivo (sin panel ni alertas), y no hay trazas de la conversación del LLM con el runtime de LangChain (solo su entrada y su salida). Son los dos primeros puntos de la lista de mejoras (sección 5).
+Limitaciones honestas de la observabilidad actual: es local y por archivo (sin panel ni alertas), y no hay trazas de la conversación del LLM con el runtime de LangChain (solo su entrada y su salida). Son los dos primeros puntos de la lista de mejoras (sección 4).
 
 ### 2.2 Propuesta de monitoreo (niveles)
 

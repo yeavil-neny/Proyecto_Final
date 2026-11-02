@@ -82,14 +82,14 @@ Referencia de la clase/sesión 6: *Chinoy & Liu, KPIs for gen AI (Google Cloud B
 3. **Clasificador de motivo asistido con LLM y validación (P3).** Reemplazar las palabras clave por un clasificador de pocas categorías con muestreo validado, conservando "preguntar ante la duda": mejor cobertura de formulaciones sin sacrificar el no-asumir.
 4. **Verificación de evidencia para defectos (P4).** La política exige foto para la excepción de defecto: la interfaz de la Fase 4 puede solicitar adjuntarla y anotarla en el dictamen (`evidencia: solicitada/recibida`).
 5. **Puerta de aprobación por umbral de valor (P5).** En un backend real: por encima de un monto o en categorías sensibles, la emisión pasa a human-in-the-loop (aprobación de un asesor antes de etiqueta): automatización con freno proporcional.
-6. **Extensiones con la misma arquitectura (herramientas nuevas, cero rediseño).**  Gracias al desacoplamiento de la arquitectura router + contratos, es posible escalar las capacidades del sistema sin modificar el esqueleto base (dictamen, revalidación y registro). Se proponen las siguientes extensiones modulares:
-  - *Operaciones y XAI:*
-      - 'generar_orden_reemplazo' y 'actualizar_crm_cliente': Automatizan la creación de órdenes de reemplazo (vinculando dictamen y catálogo) y la sincronización de datos en el CRM. Sugeridas naturalmente en el enunciado.
-      - 'explicabilidad_decisiones_xai': Añade una justificación estructurada basada en la normativa consultada, garantizando transparencia y facilitando la auditoría humana.
-  - *Analítica y Alertas Proactivas:*
-      - 'generar_ranking_defectos' y 'analisis_comportamiento_clientes': Generan alertas y métricas sobre productos con mayores fallas y segmentan el comportamiento de clientes recurrentes.   
-  - *Estrategia Comercial y Fidelización:*
-      - 'captura_nuevos_leads_y_ventas' y 'medicion_satisfaccion_post_servicio': Permiten sugerir ventas cruzadas (cross-selling), captar prospectos y medir la satisfacción (CSAT) de forma conversacional al cierre del caso. 
+6. **Extensiones con la misma arquitectura (herramientas nuevas, cero rediseño) (P6).**  Gracias al desacoplamiento de la arquitectura router + contratos, es posible escalar las capacidades del sistema sin modificar el esqueleto base (dictamen, revalidación y registro). Se proponen las siguientes extensiones modulares:
+      - *Operaciones y XAI:*
+          - `generar_orden_reemplazo` y `actualizar_crm_cliente`: Automatizan la creación de órdenes de reemplazo (vinculando dictamen y catálogo) y la sincronización de datos en el CRM. **(*Sugeridas naturalmente en el enunciado*).**
+          - `explicabilidad_decisiones_xai`: Añade una justificación estructurada basada en la normativa consultada, garantizando transparencia y facilitando la auditoría humana.
+      - *Analítica y Alertas Proactivas:*
+          - `generar_ranking_defectos` y `analisis_comportamiento_clientes`: Generan alertas y métricas sobre productos con mayores fallas y segmentan el comportamiento de clientes recurrentes.   
+      - *Estrategia Comercial y Fidelización:*
+          - `captura_nuevos_leads_y_ventas` y `medicion_satisfaccion_post_servicio`: Permiten sugerir ventas cruzadas (cross-selling), captar prospectos y medir la satisfacción (CSAT) de forma conversacional al cierre del caso. 
 7. **Suite de evaluación de LLM no determinista (P7).** Los 7 casos en vivo de la Fase 2 corrieron una vez; con presupuesto de peticiones (el free tier impone 20/día), automatizarlos como suite nocturna con verificación de claves de conducta (no texto literal): estabiliza la regresión del prompt ante cambios de modelo.
 8. **Optimización de costos y latencia (P8).** Referencia *CloudFountain*: temperatura 0.1 y prompts compactos ya aplicados; siguiente paso, cache del índice de embeddings (corridas de prueba que no recalculen) y medición de tokens por turno desde el JSONL extendido.
 
